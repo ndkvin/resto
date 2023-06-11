@@ -29,5 +29,5 @@ Route::group([
   'middleware' => ['auth', 'admin'],
   'as' => 'admin.',
 ], function() {
-  Route::resource('category', CategoryController::class)->except(['show']);
+  Route::resource('category', CategoryController::class)->except(['edit']);
 });
