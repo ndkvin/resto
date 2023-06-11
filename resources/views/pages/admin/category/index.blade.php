@@ -5,8 +5,12 @@
 @endsection`
 
 @section('content')
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#create">
-        Create Category
+    <button type="button" class="btn btn-primary btn-burger" data-bs-toggle="modal" data-bs-target="#create">
+        <div class="flex align-middle">
+            <span class="material-symbols-outlined">
+                add
+            </span>
+        </div>
     </button>
 
     <!-- create modal -->
@@ -29,7 +33,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary" onclick="submitCreate()">Create</button>
                 </div>
             </div>
@@ -55,7 +59,7 @@
                             <tr>
                                 <th>no</th>
                                 <th>Name</th>
-                                <th>Position</th>
+                                <th>action</th>
                             </tr>
                         </tfoot>
                         <tbody>
@@ -65,31 +69,21 @@
                                     <td>{{ $no }}</td>
                                     <td>{{ $category->name }}</td>
                                     <td>
-                                        <button type="button" class="btn btn-primary btn-sm me-3" data-bs-toggle="modal"
-                                            data-bs-target="#editCategory" data-id="{{ $category->id }}">
+                                        <button type="button" class="btn btn-primary btn-burger btn-sm me-3"
+                                            data-bs-toggle="modal" data-bs-target="#editCategory"
+                                            data-id="{{ $category->id }}">
                                             <span class="material-symbols-outlined">
                                                 edit
                                             </span>
                                         </button>
 
-                                        <button type="button" class="btn btn-danger btn-sm me-3" data-bs-toggle="modal"
-                                            data-bs-target="#deleteCategory" data-id="{{ $category->id }}">
+                                        <button type="button" class="btn btn-danger btn-burger btn-sm me-3"
+                                            data-bs-toggle="modal" data-bs-target="#deleteCategory"
+                                            data-id="{{ $category->id }}">
                                             <span class="material-symbols-outlined">
                                                 delete
                                             </span>
                                         </button>
-
-                                        {{-- <form action="{{ route('admin.category.destroy', $category->id) }}" method="post"
-                                            class="d-inline">
-                                            @csrf
-                                            @method('delete')
-                                            <button type="submit" class="btn btn-danger btn-sm me-3"
-                                                onclick="return confirm('Anda yakin?');">
-                                                <span class="material-symbols-outlined">
-                                                    delete
-                                                </span>
-                                            </button>
-                                        </form> --}}
                                     </td>
                                 </tr>
                                 <?php $no++; ?>
@@ -122,7 +116,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary" onclick="submitEdit()">Save changes</button>
                 </div>
             </div>
@@ -145,7 +139,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary" onclick="submitDelete()">Yes</button>
                 </div>
             </div>
@@ -171,8 +165,17 @@
         $(document).ready(function() {
             // Setup - add a text input to each footer cell
             $('#category tfoot th').each(function() {
-                var title = $(this).text();
-                $(this).html('<input type="text" class="form-control" placeholder="' + title + '" />');
+                if ($(this).text() == 'no' || $(this).text() == 'action') {
+                    var title = $(this).text();
+                    $(this).html('<input type="text" class="form-control" placeholder="' + title +
+                        '" disabled/>');
+
+                } else {
+                    var title = $(this).text();
+                    $(this).html('<input type="text" class="form-control" placeholder="' + title +
+                        '" disable/>');
+                }
+
             });
 
             // DataTable
@@ -191,6 +194,17 @@
                             });
                         });
                 },
+                'columns': [
+                    {
+                        'searchable': false
+                    },
+                    {
+                        'searchable': true
+                    },
+                    {
+                        'searchable': false
+                    }
+                ]
             });
         });
         $('#editCategory').on('show.bs.modal', function(e) {
@@ -207,7 +221,7 @@
         $('#deleteCategory').on('show.bs.modal', function(e) {
             var id = $(e.relatedTarget).data('id');
             const url = `/admin/category/${id}`;
-          
+
             $.get(url, function(response) {
                 $(e.currentTarget).find('form[action="/admin/category/id"]').attr('action',
                     `/admin/category/${id}`);

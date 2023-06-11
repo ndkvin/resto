@@ -22,16 +22,16 @@
                 </a>
                 <ul class="sub-menu">
                     <li>
-                        <a href="pricing.html" class="active">Category</a>
+                        <a href="{{ route('admin.category.index') }}" class="{{ request()->is('admin/category') ? ' active' : '' }}">Category</a>
                     </li>
                     <li>
-                        <a href="invoice.html">Menu</a>
+                        <a href="invoice.html" class="{{ request()->is('admin/menu') ? ' active' : '' }}">Menu</a>
                     </li>
                     <li>
-                        <a href="settings.html">Kasir</a>
+                        <a href="settings.html" class="{{ request()->is('admin/cashier') ? ' active' : '' }}">Cashier</a>
                     </li>
                     <li>
-                        <a href="settings.html">Meja</a>
+                        <a href="settings.html" class="{{ request()->is('admin/table') ? ' active' : '' }}">Table</a>
                     </li>
                 </ul>
             </li>

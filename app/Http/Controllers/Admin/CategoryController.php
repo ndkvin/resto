@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\admin\category\CreateRequest;
+use App\Http\Requests\Admin\Category\CreateRequest;
+use App\Http\Requests\Admin\Category\UpdateRequest;
 use App\Models\Category;
-use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
@@ -58,7 +58,7 @@ class CategoryController extends Controller
   /**
    * Update the specified resource in storage.
    */
-  public function update(Request $request, Category $category)
+  public function update(UpdateRequest $request, Category $category)
   {
     // update category
     $category->update([
@@ -67,7 +67,7 @@ class CategoryController extends Controller
 
     return redirect()
       ->route('admin.category.index')
-      ->with('success', "Category $request->name; updated successfully");
+      ->with('success', "Category $request->name updated successfully");
   }
 
   /**
