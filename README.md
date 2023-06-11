@@ -25,4 +25,5 @@ Aplikasi yang dibutuhkan:
 3. Buat file **.env** dari template **.env.example** dan ubah kredensial database pada file **.env** sesuai dengan keadaan server masing-masing
 4. Jalankan perintah `php artisan key:generate`
 5. Jalankan perintah `php artisan migrate:fresh`
-6. Jalankan perintah `php artisan serve` dan kunjungi URL nya
+6. Jalankan perintah `php artisan db:seed`
+7. Jalankan perintah `php artisan serve` dan kunjungi URL nya
