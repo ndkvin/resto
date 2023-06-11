@@ -45,53 +45,51 @@
                 <div class="card-header">
                     <h5 class="card-title">Category</h5>
                 </div>
-                <div class="card">
-                    <div class="card-body">
-                        <table id="category" class="display nowrap" style="width:100%">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Name</th>
-                                    <th>Action</th>
-                                </tr>
+                <div class="card-body">
+                    <table id="datatable4" class="display nowrap" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Action</th>
+                            </tr>
 
-                            </thead>
-                            <tfoot>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>no</th>
+                                <th>Name</th>
+                                <th>action</th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            <?php $no = 1; ?>
+                            @foreach ($categories as $category)
                                 <tr>
-                                    <th>no</th>
-                                    <th>Name</th>
-                                    <th>action</th>
-                                </tr>
-                            </tfoot>
-                            <tbody>
-                                <?php $no = 1; ?>
-                                @foreach ($categories as $category)
-                                    <tr>
-                                        <td>{{ $no }}</td>
-                                        <td>{{ $category->name }}</td>
-                                        <td>
-                                            <button type="button" class="btn btn-primary btn-burger btn-sm me-3"
-                                                data-bs-toggle="modal" data-bs-target="#editCategory"
-                                                data-id="{{ $category->id }}">
-                                                <span class="material-symbols-outlined">
-                                                    edit
-                                                </span>
-                                            </button>
+                                    <td>{{ $no }}</td>
+                                    <td>{{ $category->name }}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-primary btn-burger btn-sm me-3"
+                                            data-bs-toggle="modal" data-bs-target="#editCategory"
+                                            data-id="{{ $category->id }}">
+                                            <span class="material-symbols-outlined">
+                                                edit
+                                            </span>
+                                        </button>
 
-                                            <button type="button" class="btn btn-danger btn-burger btn-sm me-3"
-                                                data-bs-toggle="modal" data-bs-target="#deleteCategory"
-                                                data-id="{{ $category->id }}">
-                                                <span class="material-symbols-outlined">
-                                                    delete
-                                                </span>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <?php $no++; ?>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                                        <button type="button" class="btn btn-danger btn-burger btn-sm me-3"
+                                            data-bs-toggle="modal" data-bs-target="#deleteCategory"
+                                            data-id="{{ $category->id }}">
+                                            <span class="material-symbols-outlined">
+                                                delete
+                                            </span>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <?php $no++; ?>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -164,50 +162,7 @@
             $('#deleteSubmit').click();
         }
 
-        $(document).ready(function() {
-            // Setup - add a text input to each footer cell
-            $('#category tfoot th').each(function() {
-                if ($(this).text() == 'no' || $(this).text() == 'action') {
-                    var title = $(this).text();
-                    $(this).html('<input type="text" class="form-control" placeholder="' + title +
-                        '" disabled/>');
 
-                } else {
-                    var title = $(this).text();
-                    $(this).html('<input type="text" class="form-control" placeholder="' + title +
-                        '" disable/>');
-                }
-
-            });
-
-            // DataTable
-            var table = $('#category').DataTable({
-                initComplete: function() {
-                    // Apply the search
-                    this.api()
-                        .columns()
-                        .every(function() {
-                            var that = this;
-
-                            $('input', this.footer()).on('keyup change clear', function() {
-                                if (that.search() !== this.value) {
-                                    that.search(this.value).draw();
-                                }
-                            });
-                        });
-                },
-                'columns': [{
-                        'searchable': false
-                    },
-                    {
-                        'searchable': true
-                    },
-                    {
-                        'searchable': false
-                    }
-                ]
-            });
-        });
         $('#editCategory').on('show.bs.modal', function(e) {
             var id = $(e.relatedTarget).data('id');
             const url = `/admin/category/${id}`;

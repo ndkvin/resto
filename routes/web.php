@@ -33,4 +33,5 @@ Route::group([
 ], function() {
   Route::resource('category', CategoryController::class)->except(['create', 'edit']);
   Route::resource('menu', MenuController::class)->except(['create','edit']);
+  Route::resource('table', TableController::class)->except(['create','edit']);
 });

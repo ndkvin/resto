@@ -69,8 +69,8 @@ class MenuController extends Controller
      */
     public function update(UpdateRequest $request, Menu $menu)
     {
-      // dd($request->all());
       // check if image is updated
+
       if ($request->hasFile('image')) {
         Storage::delete('public/' . $menu->image);
         $url = $request->file('image')->store('images/menu', 'public');

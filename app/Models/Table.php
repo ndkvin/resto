@@ -12,6 +12,7 @@ class Table extends Model
     protected $fillable = [
       'name',
       'is_paid',
-      'price'
+      'price',
+      'capacity'
     ];
 }
