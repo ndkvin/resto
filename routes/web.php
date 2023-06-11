@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers;
+use App\Http\Controllers\Admin\MenuController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -29,5 +31,6 @@ Route::group([
   'middleware' => ['auth', 'admin'],
   'as' => 'admin.',
 ], function() {
-  Route::resource('category', CategoryController::class)->except(['edit']);
+  Route::resource('category', CategoryController::class)->except(['create', 'edit']);
+  Route::resource('menu', MenuController::class)->except(['create','edit']);
 });

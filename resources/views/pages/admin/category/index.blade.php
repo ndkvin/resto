@@ -45,51 +45,53 @@
                 <div class="card-header">
                     <h5 class="card-title">Category</h5>
                 </div>
-                <div class="card-body">
-                    <table id="category" class="display" style="width:100%">
-                        <thead>
-                            <tr>
-                                <th>no</th>
-                                <th>Name</th>
-                                <th>Action</th>
-                            </tr>
-
-                        </thead>
-                        <tfoot>
-                            <tr>
-                                <th>no</th>
-                                <th>Name</th>
-                                <th>action</th>
-                            </tr>
-                        </tfoot>
-                        <tbody>
-                            <?php $no = 1; ?>
-                            @foreach ($categories as $category)
+                <div class="card">
+                    <div class="card-body">
+                        <table id="category" class="display nowrap" style="width:100%">
+                            <thead>
                                 <tr>
-                                    <td>{{ $no }}</td>
-                                    <td>{{ $category->name }}</td>
-                                    <td>
-                                        <button type="button" class="btn btn-primary btn-burger btn-sm me-3"
-                                            data-bs-toggle="modal" data-bs-target="#editCategory"
-                                            data-id="{{ $category->id }}">
-                                            <span class="material-symbols-outlined">
-                                                edit
-                                            </span>
-                                        </button>
-
-                                        <button type="button" class="btn btn-danger btn-burger btn-sm me-3"
-                                            data-bs-toggle="modal" data-bs-target="#deleteCategory"
-                                            data-id="{{ $category->id }}">
-                                            <span class="material-symbols-outlined">
-                                                delete
-                                            </span>
-                                        </button>
-                                    </td>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th>Action</th>
                                 </tr>
-                                <?php $no++; ?>
-                            @endforeach
-                        </tbody>
-                    </table>
+
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <th>no</th>
+                                    <th>Name</th>
+                                    <th>action</th>
+                                </tr>
+                            </tfoot>
+                            <tbody>
+                                <?php $no = 1; ?>
+                                @foreach ($categories as $category)
+                                    <tr>
+                                        <td>{{ $no }}</td>
+                                        <td>{{ $category->name }}</td>
+                                        <td>
+                                            <button type="button" class="btn btn-primary btn-burger btn-sm me-3"
+                                                data-bs-toggle="modal" data-bs-target="#editCategory"
+                                                data-id="{{ $category->id }}">
+                                                <span class="material-symbols-outlined">
+                                                    edit
+                                                </span>
+                                            </button>
+
+                                            <button type="button" class="btn btn-danger btn-burger btn-sm me-3"
+                                                data-bs-toggle="modal" data-bs-target="#deleteCategory"
+                                                data-id="{{ $category->id }}">
+                                                <span class="material-symbols-outlined">
+                                                    delete
+                                                </span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <?php $no++; ?>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -100,7 +102,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">New Category</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Edit Category</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -194,8 +196,7 @@
                             });
                         });
                 },
-                'columns': [
-                    {
+                'columns': [{
                         'searchable': false
                     },
                     {

@@ -25,7 +25,7 @@
                         <a href="{{ route('admin.category.index') }}" class="{{ request()->is('admin/category') ? ' active' : '' }}">Category</a>
                     </li>
                     <li>
-                        <a href="invoice.html" class="{{ request()->is('admin/menu') ? ' active' : '' }}">Menu</a>
+                        <a href="{{ route('admin.menu.index') }}" class="{{ request()->is('admin/menu') ? ' active' : '' }}">Menu</a>
                     </li>
                     <li>
                         <a href="settings.html" class="{{ request()->is('admin/cashier') ? ' active' : '' }}">Cashier</a>
