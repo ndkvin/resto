@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
-
+use App\Http\Controllers;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,3 +22,12 @@ Auth::routes([
   'reset' => false,
   'verify' => false,
 ]);
+
+Route::group([
+  'prefix' => 'admin',
+  'namespace' => 'App\Http\Controllers\Admin',
+  'middleware' => ['auth', 'admin'],
+  'as' => 'admin.',
+], function() {
+  Route::resource('category', CategoryController::class)->except(['show']);
+});

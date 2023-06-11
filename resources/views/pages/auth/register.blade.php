@@ -31,14 +31,13 @@
 <body>
     <div class="app app-auth-sign-up align-content-stretch d-flex flex-wrap justify-content-end">
         <div class="app-auth-background">
-
         </div>
         <div class="app-auth-container">
             <div class="logo">
-                <a href="index.html">Neptune</a>
+                <a href="/">Resto App</a>
             </div>
             <p class="auth-description">Please enter your credentials to create an account.<br>Already have an account?
-                <a href="sign-in.html">Sign In</a>
+                <a href="{{ route('login') }}">Sign In</a>
             </p>
 
             <form action="{{ route('register') }}" method="POST">
@@ -97,6 +96,7 @@
             })
         </script>
     @endif
+</body>
 </body>
 
 </html>

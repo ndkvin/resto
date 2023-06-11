@@ -9,16 +9,17 @@
     <meta name="keywords" content="admin,dashboard">
     <meta name="author" content="stacks">
     <!-- The above 6 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Title -->
     <title>@yield('title')</title>
-
     <!-- Styles -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;500;600;700;800&display=swap"
         rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
     <link
         href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
         rel="stylesheet">
@@ -31,7 +32,7 @@
 
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/neptune.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/neptune.png" />
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="/assets/plugins/datatables/datatables.min.css" rel="stylesheet">
     @yield('header')
 </head>
 
@@ -39,7 +40,7 @@
     <div class="app align-content-stretch d-flex flex-wrap">
         @include('components.admin.sidebar')
         <div class="app-container">
-            @include('components.admin.header')  
+            @include('components.admin.header')
             <div class="app-content">
                 <div class="content-wrapper">
                     <div class="container-fluid">
@@ -59,6 +60,9 @@
     <script src="/assets/plugins/highlight/highlight.pack.js"></script>
     <script src="/assets/js/main.min.js"></script>
     <script src="/assets/js/custom.js"></script>
+    <script src="/assets/plugins/datatables/datatables.min.js"></script>
+    <script src="/assets/js/pages/datatables.js"></script>
+    @yield('scripts')
     @if ($errors->any())
         <script>
             let errorMessages = '';
@@ -69,6 +73,15 @@
                 icon: 'error',
                 title: 'Oops...',
                 text: errorMessages,
+            })
+        </script>
+    @endif
+    @if (session('success'))
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: "{{ session('success') }}",
             })
         </script>
     @endif
