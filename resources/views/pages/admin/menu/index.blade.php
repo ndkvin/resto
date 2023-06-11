@@ -163,7 +163,7 @@
                             </div>
                             <div class="col-md-12 mt-2">
                                 <label for="image" class="form-label">Image</label>
-                                <input type="file" class="form-control" id="image" name="image" required>
+                                <input type="file" class="form-control" id="image" name="image">
                             </div>
                             <div class="col-md-12 mt-2">
                                 <img src="" alt="" id="img" width="100%">
