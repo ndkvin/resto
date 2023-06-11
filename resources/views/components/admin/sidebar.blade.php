@@ -28,10 +28,10 @@
                         <a href="{{ route('admin.menu.index') }}" class="{{ request()->is('admin/menu') ? ' active' : '' }}">Menu</a>
                     </li>
                     <li>
-                        <a href="settings.html" class="{{ request()->is('admin/cashier') ? ' active' : '' }}">Cashier</a>
+                        <a href="{{ route('admin.table.index') }}" class="{{ request()->is('admin/cashier') ? ' active' : '' }}">Cashier</a>
                     </li>
                     <li>
-                        <a href="settings.html" class="{{ request()->is('admin/table') ? ' active' : '' }}">Table</a>
+                        <a href="{{ route('admin.table.index') }}" class="{{ request()->is('admin/table') ? ' active' : '' }}">Table</a>
                     </li>
                 </ul>
             </li>

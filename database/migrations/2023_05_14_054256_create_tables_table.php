@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');               
             $table->boolean('is_paid')->default(false);
             $table->integer('price')->default(0);
+            $table->boolean('capacity')->default(1);
             $table->timestamps();
         });
     }
