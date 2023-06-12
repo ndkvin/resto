@@ -16,22 +16,26 @@
             </li>
             <li class="active-page">
                 <a href="">
-                  <i class="material-icons-two-tone">settings</i>
-                  Manage
-                  <i class="material-icons has-sub-menu">keyboard_arrow_right</i>
+                    <i class="material-icons-two-tone">settings</i>
+                    Manage
+                    <i class="material-icons has-sub-menu">keyboard_arrow_right</i>
                 </a>
                 <ul class="sub-menu">
                     <li>
-                        <a href="{{ route('admin.category.index') }}" class="{{ request()->is('admin/category') ? ' active' : '' }}">Category</a>
+                        <a href="{{ route('admin.category.index') }}"
+                            class="{{ request()->is('admin/category') ? ' active' : '' }}">Category</a>
                     </li>
                     <li>
-                        <a href="{{ route('admin.menu.index') }}" class="{{ request()->is('admin/menu') ? ' active' : '' }}">Menu</a>
+                        <a href="{{ route('admin.menu.index') }}"
+                            class="{{ request()->is('admin/menu') ? ' active' : '' }}">Menu</a>
                     </li>
                     <li>
-                        <a href="{{ route('admin.cashier.index') }}" class="{{ request()->is('admin/cashier') ? ' active' : '' }}">Cashier</a>
+                        <a href="{{ route('admin.cashier.index') }}"
+                            class="{{ request()->is('admin/cashier') ? ' active' : '' }}">Cashier</a>
                     </li>
                     <li>
-                        <a href="{{ route('admin.table.index') }}" class="{{ request()->is('admin/table') ? ' active' : '' }}">Table</a>
+                        <a href="{{ route('admin.table.index') }}"
+                            class="{{ request()->is('admin/table') ? ' active' : '' }}">Table</a>
                     </li>
                 </ul>
             </li>
@@ -54,8 +58,13 @@
                 </ul>
             </li>
             <li>
-                <a href="#"><i class="material-icons-two-tone">access_time</i>Change Log</a>
+                <a href="#" onclick="$('#logout').click()"><i class="material-icons-two-tone">logout</i>Logout</a>
+                <form action="{{ route('logout') }}" method="POST" id="formCreate">
+                    @csrf
+                    <input type="submit" id="logout" class="d-none">
+                </form>
             </li>
+
         </ul>
     </div>
 </div>

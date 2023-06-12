@@ -76,7 +76,12 @@ class TableController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy(Table $table)
-    {
+    { 
+        if ($table->orders()->count() > 0) {
+            return redirect()
+              ->route('admin.table.index')
+              ->with('error', "table $table->name used in orders, cannot delete");
+        }
         // delete
         $table->delete();
         //redirect
