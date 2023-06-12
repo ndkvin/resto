@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Table\CreateRequest;
+use App\Http\Requests\Admin\Table\UpdateRequest;
 use App\Models\Table;
 use Illuminate\Http\Request;
 
@@ -44,15 +45,15 @@ class TableController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Table $table)
     {
-        //
+        return $table;
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Table $table)
     {
         //
     }
@@ -60,16 +61,27 @@ class TableController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateRequest $request, Table $table)
     {
-        //
+        // update
+        $table->update($request->all());
+
+        // redirect
+        return redirect()
+          ->route('admin.table.index')
+          ->with('success', "table $table->name updated succressfully");
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Table $table)
     {
-        //
+        // delete
+        $table->delete();
+        //redirect
+        return redirect()
+          ->route('admin.table.index')
+          ->with('success', "table $table->name deleted succressfully");
     }
 }

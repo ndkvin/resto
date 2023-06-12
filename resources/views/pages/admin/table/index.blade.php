@@ -46,7 +46,7 @@
                         </div>
                         <div class="col-md-12 mt-2">
                             <label for="price" class="form-label">Price</label>
-                            <input type="number" class="form-control" id="price" name="price" required>
+                            <input type="number" class="form-control" id="price" name="price">
                         </div>
                         <input type="submit" id="createSubmit" class="d-none">
                     </form>
@@ -64,63 +64,61 @@
                 <div class="card-header">
                     <h5 class="card-title">Table</h5>
                 </div>
-                <div class="card">
-                    <div class="card-body">
-                        <table id="datatable4" class="display nowrap" style="width:100%">
-                            <thead>
+                <div class="card-body table-responsive">
+                    <table id="datatable4" class="display nowrap table" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Capacity</th>
+                                <th>Is Paid</th>
+                                <th>Price</th>
+                                <th>Action</th>
+                            </tr>
+
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>no</th>
+                                <th>Name</th>
+                                <th>Capacity</th>
+                                <th>Is Paid</th>
+                                <th>Price</th>
+                                <th>Action</th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            <?php $no = 1; ?>
+                            @foreach ($tables as $table)
                                 <tr>
-                                    <th>#</th>
-                                    <th>Name</th>
-                                    <th>Capacity</th>
-                                    <th>Is Paid</th>
-                                    <th>Price</th>
-                                    <th>Action</th>
+                                    <td>{{ $table->id }}</td>
+                                    <td>{{ $table->name }}</td>
+                                    <td>{{ number_format($table->capacity, 0, '.', '.') }}</td>
+                                    <td>{{ $table->is_paid ? 'yes' : 'no' }}</td>
+                                    <td>{{ $table->is_paid ? 'Rp' . number_format($table->price, 0, '.', '.') : 'free' }}
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-primary btn-burger btn-sm me-3"
+                                            data-bs-toggle="modal" data-bs-target="#edittable"
+                                            data-id="{{ $table->id }}">
+                                            <span class="material-symbols-outlined">
+                                                edit
+                                            </span>
+                                        </button>
+
+                                        <button type="button" class="btn btn-danger btn-burger btn-sm me-3"
+                                            data-bs-toggle="modal" data-bs-target="#deleteTable"
+                                            data-id="{{ $table->id }}">
+                                            <span class="material-symbols-outlined">
+                                                delete
+                                            </span>
+                                        </button>
+                                    </td>
                                 </tr>
-
-                            </thead>
-                            <tfoot>
-                                <tr>
-                                    <th>no</th>
-                                    <th>Name</th>
-                                    <th>Capacity</th>
-                                    <th>Is Paid</th>
-                                    <th>Price</th>
-                                    <th>Action</th>
-                                </tr>
-                            </tfoot>
-                            <tbody>
-                                <?php $no = 1; ?>
-                                @foreach ($tables as $table)
-                                    <tr>
-                                        <td>{{ $no }}</td>
-                                        <td>{{ $table->name }}</td>
-                                        <td>{{ $table->capacity }}</td>
-                                        <td>{{ $table->is_paid }}</td>
-                                        <td>{{ $table->price }}</td>
-
-                                        <td>
-                                            <button type="button" class="btn btn-primary btn-burger btn-sm me-3"
-                                                data-bs-toggle="modal" data-bs-target="#edittable"
-                                                data-id="{{ $table->id }}">
-                                                <span class="material-symbols-outlined">
-                                                    edit
-                                                </span>
-                                            </button>
-
-                                            <button type="button" class="btn btn-danger btn-burger btn-sm me-3"
-                                                data-bs-toggle="modal" data-bs-target="#deletetable"
-                                                data-id="{{ $table->id }}">
-                                                <span class="material-symbols-outlined">
-                                                    delete
-                                                </span>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <?php $no++; ?>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                                <?php $no++; ?>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -143,25 +141,22 @@
                                     min="3">
                             </div>
                             <div class="col-md-12 mt-2">
+                                <label for="capacity" class="form-label">Capacity</label>
+                                <input type="number" class="form-control" id="capacity" name="capacity" required>
+                            </div>
+                            <div class="col-md-12 mt-2">
+                                <label for="is_paid" class="form-label">Paid</label>
+                                <div class="input-group mb-3">
+                                    <select class="form-select" id="is_paid" name="is_paid" type="number" required
+                                        min="0" max="1">
+                                        <option value="0">False</option>
+                                        <option value="1">Ture</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-12 mt-2">
                                 <label for="price" class="form-label">Price</label>
-                                <input type="text" class="form-control" id="price" name="price" required
-                                    min="3">
-                            </div>
-                            <div class="col-md-12 mt-2">
-                                <label for="image" class="form-label">Image</label>
-                                <input type="file" class="form-control" id="image" name="image" required>
-                            </div>
-                            <div class="col-md-12 mt-2">
-                                <img src="" alt="" id="img" width="100%">
-                            </div>
-                            <figure class="mt-3">
-                                <figcaption class="blockquote-footer">
-                                    Leave blank if you don't want to change
-                                </figcaption>
-                            </figure>
-                            <div class="col-md-12 mt-2">
-                                <label for="description" class="form-label">Description</label>
-                                <input type="text" class="form-control" id="description" name="description" required>
+                                <input type="number" class="form-control" id="price" name="price">
                             </div>
                             <input type="submit" id="editSubmit" class="d-none">
                         </form>
@@ -174,7 +169,8 @@
             </div>
         </div>
 
-        <div class="modal fade" id="datatable4" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        {{-- delete modal --}}
+        <div class="modal fade" id="deleteTable" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -222,21 +218,21 @@
                     $(e.currentTarget).find('form[action="/admin/table/id"]').attr('action',
                         `/admin/table/${id}`);
                     $(e.currentTarget).find('input[name="name"]').val(response.name);
-                    $(e.currentTarget).find('input[name="description"]').val(response.description);
+                    $(e.currentTarget).find('input[name="capacity"]').val(response.capacity);
                     $(e.currentTarget).find('input[name="price"]').val(response.price);
                     $(e.currentTarget).find('select[name="category_id"]').val(response.category_id);
                     $(e.currentTarget).find('img[id="img"]').attr('src', `/storage/${response.image}`);
                 });
             });
 
-            $('#deletetable').on('show.bs.modal', function(e) {
+            $('#deleteTable').on('show.bs.modal', function(e) {
                 var id = $(e.relatedTarget).data('id');
                 const url = `/admin/table/${id}`;
-
+                console.log(url)
                 $.get(url, function(response) {
+                    console.log(response)
                     $(e.currentTarget).find('form[action="/admin/table/id"]').attr('action',
                         `/admin/table/${id}`);
-
                     $('#tableName').text(response.name);
                 });
             });
