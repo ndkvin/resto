@@ -69,19 +69,19 @@ class MenuController extends Controller
      */
     public function update(UpdateRequest $request, Menu $menu)
     {
-      // check if image is updated
+      $data = $request->all();
 
       if ($request->hasFile('image')) {
         Storage::delete('public/' . $menu->image);
         $url = $request->file('image')->store('images/menu', 'public');
-        $menu->image = $url;
+        $data['image'] = $url;
       }
 
-      $menu->update($request->all());
-  
+      $menu->update($data);
+
       return redirect()
         ->route('admin.menu.index')
-        ->with('success', "Menu $request->name updated successfully");
+        ->with('success', "Menu $menu->name updated successfully");
     }
 
     /**

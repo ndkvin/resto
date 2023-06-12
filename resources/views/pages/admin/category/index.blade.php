@@ -66,8 +66,8 @@
                             <?php $no = 1; ?>
                             @foreach ($categories as $category)
                                 <tr>
-                                    <td>{{ $no }}</td>
-                                    <td>{{ $category->name }}</td>
+                                    <td class="align-middle">{{ $no }}</td>
+                                    <td class="align-middle">{{ $category->name }}</td>
                                     <td>
                                         <button type="button" class="btn btn-primary btn-burger btn-sm me-3"
                                             data-bs-toggle="modal" data-bs-target="#editCategory"

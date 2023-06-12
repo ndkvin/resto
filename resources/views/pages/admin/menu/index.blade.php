@@ -97,11 +97,11 @@
                             <?php $no = 1; ?>
                             @foreach ($menus as $menu)
                                 <tr>
-                                    <td>{{ $no }}</td>
-                                    <td>{{ $menu->name }}</td>
-                                    <td>{{ $menu->category->name }}</td>
-                                    <td>{{ $menu->price }}</td>
-                                    <td>{{ $menu->description }}</td>
+                                    <td class="align-middle">{{ $no }}</td>
+                                    <td class="align-middle">{{ $menu->name }}</td>
+                                    <td class="align-middle">{{ $menu->category->name }}</td>
+                                    <td class="align-middle">{{ $menu->price }}</td>
+                                    <td class="align-middle">{{ $menu->description }}</td>
 
                                     <td>
                                         <button type="button" class="btn btn-primary btn-burger btn-sm me-3"
@@ -137,7 +137,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="/admin/menu/id" method="POST" id="formCreate">
+                        <form action="/admin/menu/id" method="POST" id="formCreate"  enctype="multipart/form-data">
                             @method('PUT')
                             @csrf
                             <div class="col-md-12">
