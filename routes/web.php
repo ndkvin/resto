@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers;
+use App\Http\Controllers\Admin\CashierConroller;
 use App\Http\Controllers\Admin\MenuController;
 
 /*
@@ -18,7 +19,7 @@ use App\Http\Controllers\Admin\MenuController;
 
 Route::get('/', function () {
     return view('pages.admin.index');
-});
+})->name('home');
 
 Auth::routes([
   'reset' => false,
@@ -34,4 +35,5 @@ Route::group([
   Route::resource('category', CategoryController::class)->except(['create', 'edit']);
   Route::resource('menu', MenuController::class)->except(['create','edit']);
   Route::resource('table', TableController::class)->except(['create','edit']);
+  Route::resource('cashier', CashierConroller::class)->except(['create','edit']);
 });

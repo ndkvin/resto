@@ -75,6 +75,14 @@ class CategoryController extends Controller
    */
   public function destroy(Category $category)
   {
+
+    // cehek catetgory menu if exits
+    if ($category->menus()->count() > 0) {
+      return redirect()
+        ->route('admin.category.index')
+        ->withErrors(["Category $category->name cant be deleted because it has a menu"]);
+    }
+
     $category->delete();
     return redirect()
       ->route('admin.category.index')
