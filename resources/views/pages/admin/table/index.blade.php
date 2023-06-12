@@ -91,11 +91,11 @@
                             <?php $no = 1; ?>
                             @foreach ($tables as $table)
                                 <tr>
-                                    <td>{{ $table->id }}</td>
-                                    <td>{{ $table->name }}</td>
-                                    <td>{{ number_format($table->capacity, 0, '.', '.') }}</td>
-                                    <td>{{ $table->is_paid ? 'yes' : 'no' }}</td>
-                                    <td>{{ $table->is_paid ? 'Rp' . number_format($table->price, 0, '.', '.') : 'free' }}
+                                    <td class="align-middle">{{ $table->id }}</td>
+                                    <td class="align-middle">{{ $table->name }}</td>
+                                    <td class="align-middle">{{ number_format($table->capacity, 0, '.', '.') }}</td>
+                                    <td class="align-middle">{{ $table->is_paid ? 'yes' : 'no' }}</td>
+                                    <td class="align-middle">{{ $table->is_paid ? 'Rp' . number_format($table->price, 0, '.', '.') : 'free' }}
                                     </td>
                                     <td>
                                         <button type="button" class="btn btn-primary btn-burger btn-sm me-3"
