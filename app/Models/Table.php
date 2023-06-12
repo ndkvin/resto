@@ -15,4 +15,8 @@ class Table extends Model
       'price',
       'capacity'
     ];
+
+    public function orders() {
+        return $this->hasMany(Order::class);
+    }
 }

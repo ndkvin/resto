@@ -89,6 +89,13 @@ class MenuController extends Controller
      */
     public function destroy(Menu $menu)
     {
+      // chec menu if used in order
+      if ($menu->orders()->count() > 0) {
+        return redirect()
+          ->route('admin.menu.index')
+          ->with('error', "Menu $menu->name used in order");
+      }
+
       Storage::delete('public/' . $menu->image);
       $menu->delete();
       return redirect()
