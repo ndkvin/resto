@@ -45,8 +45,8 @@
                 <div class="card-header">
                     <h5 class="card-title">Category</h5>
                 </div>
-                <div class="card-body">
-                    <table id="datatable4" class="display nowrap" style="width:100%">
+                <div class="card-body table-responsive">
+                    <table id="datatable4" class="display nowrap table" style="width:100%">
                         <thead>
                             <tr>
                                 <th>#</th>
