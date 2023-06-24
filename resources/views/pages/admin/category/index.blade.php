@@ -2,16 +2,16 @@
 
 @section('title')
     Admin Dashboard
-@endsection`
+@endsection
 
 @section('content')
-    <button type="button" class="btn btn-primary btn-burger" data-bs-toggle="modal" data-bs-target="#create">
-        <div class="flex align-middle">
-            <span class="material-symbols-outlined">
-                add
-            </span>
-        </div>
-    </button>
+<button type="button" class="btn btn-primary btn-burger" data-bs-toggle="modal" data-bs-target="#create">
+  <div class="d-flex align-items-center justify-content-center">
+      <span class="material-symbols-outlined">
+          add
+      </span>
+  </div>
+</button>
 
     <!-- create modal -->
     <div class="modal fade" id="create" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -72,7 +72,7 @@
                                         <button type="button" class="btn btn-primary btn-burger btn-sm me-3"
                                             data-bs-toggle="modal" data-bs-target="#editCategory"
                                             data-id="{{ $category->id }}">
-                                            <span class="material-symbols-outlined">
+                                            <span class="material-symbols-outlined d-flex align-items-center justify-content-center">
                                                 edit
                                             </span>
                                         </button>
@@ -80,7 +80,7 @@
                                         <button type="button" class="btn btn-danger btn-burger btn-sm me-3"
                                             data-bs-toggle="modal" data-bs-target="#deleteCategory"
                                             data-id="{{ $category->id }}">
-                                            <span class="material-symbols-outlined">
+                                            <span class="material-symbols-outlined d-flex align-items-center justify-content-center">
                                                 delete
                                             </span>
                                         </button>
