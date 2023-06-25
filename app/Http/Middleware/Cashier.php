@@ -5,14 +5,13 @@ namespace App\Http\Middleware;
 use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
-use App\Models\UserRole;
+use Symfony\Component\HttpFoundation\Response;
 
-class Admin
+class Cashier
 {
     /**
-     * Handle an incoming request
+     * Handle an incoming request.
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
@@ -22,7 +21,7 @@ class Admin
 
       $user = User::where('id', $id)->first();
 
-      if ($user->role == 'ADMIN') {
+      if ($user->role == 'CASSIER') {
         return $next($request);
       } else {
         return redirect()->route('home');

@@ -18,7 +18,7 @@ use App\Http\Controllers\Admin\MenuController;
 */
 
 Route::get('/', function () {
-    return view('pages.admin.index');
+    return "Under Development";
 })->name('home');
 
 Auth::routes([
