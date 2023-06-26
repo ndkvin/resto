@@ -14,7 +14,7 @@
             <li class="sidebar-title">
                 Resto
             </li>
-            <li class="active-page">
+            <li class="{{ request()->is('cashier/table') ? 'active-page' : ''}}">
                 <a href="">
                     <i class="material-icons-two-tone">settings</i>
                     Manage
@@ -26,6 +26,24 @@
                             class="{{ request()->is('cashier/table') ? ' active' : '' }}">Table</a>
                     </li>
                 </ul>
+            </li>
+            <li class="{{ !request()->is('cashier/table') ? 'active-page' : ''}}">
+                <a href="">
+                    <i class="material-symbols-outlined">list_alt</i>
+                    Order
+                    <i class="material-icons has-sub-menu">keyboard_arrow_right</i>
+                </a>
+                <ul class="sub-menu">
+                    <li>
+                        <a href="{{ route('cashier.reservation.index') }}"
+                            class="{{ request()->is('cashier/reservation') ? ' active' : '' }}">Reservation</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('cashier.order.index') }}"
+                            class="{{ request()->is('cashier/order') ? ' active' : '' }}">Order</a>
+                    </li>
+                </ul>
+            </li>
             </li>
             <li class="sidebar-title">
                 UI Elements

@@ -33,13 +33,18 @@ class TableController extends Controller
      */
     public function store(CreateRequest $request)
     {
-        // store
-        Table::create($request->validated());
+      $request = $request->all();
+      if($request['is_paid'] == 0) {
+        $request['price'] = 0;
+      }
 
-        // redirect
-        return redirect()
-          ->route('admin.table.index')
-          ->with('success', "table $request->name created succressfully");
+      // store
+      Table::create($request);
+      $name = $request['name'];
+      // redirect
+      return redirect()
+        ->route('admin.table.index')
+        ->with('success', "table $name created succressfully");
     }
 
     /**

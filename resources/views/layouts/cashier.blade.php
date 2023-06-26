@@ -33,6 +33,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/neptune.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/neptune.png" />
     <link href="/assets/plugins/datatables/datatables.min.css" rel="stylesheet">
+    <link href="/assets/plugins/flatpickr/flatpickr.min.css" rel="stylesheet">
     @yield('header')
 </head>
 
@@ -62,6 +63,8 @@
     <script src="/assets/js/custom.js"></script>
     <script src="/assets/plugins/datatables/datatables.min.js"></script>
     <script src="/assets/js/pages/datatables.js"></script>
+    <script src="/assets/plugins/flatpickr/flatpickr.js"></script>
+    <script src="/assets/js/pages/datepickers.js"></script>
     @yield('scripts')
     @if ($errors->any())
         <script>
@@ -76,6 +79,15 @@
             })
         </script>
     @endif
+    @if (session('err'))
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: "{{ session('err') }}",
+            })
+        </script>
+    @endif
     @if (session('success'))
         <script>
             Swal.fire({
@@ -85,6 +97,5 @@
             })
         </script>
     @endif
-</body>
 
 </html>

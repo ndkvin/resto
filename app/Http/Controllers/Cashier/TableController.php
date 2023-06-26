@@ -33,13 +33,18 @@ class TableController extends Controller
      */
     public function store(CreateRequest $request)
     {
-        // store
-        Table::create($request->validated());
+        $request = $request->all();
+        if($request['is_paid'] == 0) {
+          $request['price'] = 0;
+        }
 
+        // store
+        Table::create($request);
+        $name = $request['name'];
         // redirect
         return redirect()
           ->route('cashier.table.index')
-          ->with('success', "table $request->name created succressfully");
+          ->with('success', "table $name created succressfully");
     }
 
     /**
@@ -80,7 +85,7 @@ class TableController extends Controller
         if ($table->orders()->count() > 0) {
             return redirect()
               ->route('cashier.table.index')
-              ->with('error', "table $table->name used in orders, cannot delete");
+              ->with("error", "table $table->name used in orders, cannot delete");
         }
         // delete
         $table->delete();

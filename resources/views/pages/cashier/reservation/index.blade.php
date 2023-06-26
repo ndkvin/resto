@@ -2,12 +2,12 @@
 
 @section('title')
     Admin Dashboard
-@endsection`
+@endsection
 
 @section('content')
     <button type="button" class="btn btn-primary btn-burger" data-bs-toggle="modal" data-bs-target="#create">
         <div class="flex align-middle">
-            <span class="material-symbols-outlined">
+            <span class="material-symbols-outlined d-flex justify-content-center align-item-center">
                 add
             </span>
         </div>
@@ -18,35 +18,41 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">New Table</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">New Reservation</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ route('cashier.table.store') }}" method="POST" id="formCreate"
+                    <form action="{{ route('cashier.reservation.store') }}" method="POST" id="formCreate"
                         enctype="multipart/form-data">
                         @csrf
                         <div class="col-md-12">
-                            <label for="name" class="form-label">Name</label>
-                            <input type="text" class="form-control" id="name" name="name" required
-                                min="3">
+                            <label for="name" class="form-label">Customer Name</label>
+                            <input type="text" class="form-control" id="name" name="name"
+                                placeholder="Customer Name" required min="3">
                         </div>
                         <div class="col-md-12 mt-2">
-                            <label for="capacity" class="form-label">Capacity</label>
-                            <input type="number" class="form-control" id="capacity" name="capacity" required>
+                            <label for="phone" class="form-label">Phone Number</label>
+                            <input type="number" class="form-control" id="phone" name="phone"
+                                placeholder="Phone Number" required>
                         </div>
                         <div class="col-md-12 mt-2">
-                            <label for="is_paid" class="form-label">Paid</label>
+                            <label for="date" class="form-label">Date</label>
+                            <input class="form-control flatpickr2" class="date" type="text" name="date"
+                                placeholder="Select Date..">
+                        </div>
+                        <div class="col-md-12 mt-2">
+                            <label for="amount" class="form-label">Table</label>
                             <div class="input-group mb-3">
-                                <select class="form-select" id="is_paid" name="is_paid" type="number" required
-                                    min="0" max="1">
-                                    <option value="0">False</option>
-                                    <option value="1">True</option>
+                                <select class="form-select" id="amount" name="table_id" type="number" aria-placeholder="Table">
+                                    @foreach ($tables as $table)
+                                        <option value="{{ $table->id }}">{{ "$table->name - Rp". number_format($table->price, 0, '.', '.')  }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-12 mt-2">
-                            <label for="price" class="form-label">Price</label>
-                            <input type="number" class="form-control" id="price" name="price">
+                            <label for="amount" class="form-label">Down Payment</label>
+                            <input type="number" class="form-control" id="amount" name="amount" placeholder="Down payment">
                         </div>
                         <input type="submit" id="createSubmit" class="d-none">
                     </form>
@@ -89,13 +95,13 @@
                         </tfoot>
                         <tbody>
                             <?php $no = 1; ?>
-                            @foreach ($tables as $table)
+                            {{-- @foreach ($tables as $table)
                                 <tr>
                                     <td class="align-middle">{{ $table->id }}</td>
                                     <td class="align-middle">{{ $table->name }}</td>
                                     <td class="align-middle">{{ number_format($table->capacity, 0, '.', '.') }}</td>
                                     <td class="align-middle">{{ $table->is_paid ? 'yes' : 'no' }}</td>
-                                    <td class="align-middle">{{ $table->is_paid ? 'Rp' . number_format($table->price, 0, '.', '.') : 'Free' }}
+                                    <td class="align-middle">{{ $table->is_paid ? 'Rp' . number_format($table->price, 0, '.', '.') : 'free' }}
                                     </td>
                                     <td>
                                         <button type="button" class="btn btn-primary btn-burger btn-sm me-3"
@@ -116,7 +122,7 @@
                                     </td>
                                 </tr>
                                 <?php $no++; ?>
-                            @endforeach
+                            @endforeach --}}
                         </tbody>
                     </table>
                 </div>
@@ -150,7 +156,7 @@
                                     <select class="form-select" id="is_paid" name="is_paid" type="number" required
                                         min="0" max="1">
                                         <option value="0">False</option>
-                                        <option value="1">True</option>
+                                        <option value="1">Ture</option>
                                     </select>
                                 </div>
                             </div>
@@ -197,6 +203,11 @@
 
     @section('scripts')
         <script>
+            $("#date").flatpickr({
+                enableTime: true,
+                dateFormat: "Y-m-d H:i",
+            });
+
             function submitCreate() {
                 $('#createSubmit').click();
             }

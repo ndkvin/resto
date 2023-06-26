@@ -65,6 +65,7 @@
     @yield('scripts')
     @if ($errors->any())
         <script>
+            console.log('errror')
             let errorMessages = '';
             @foreach ($errors->all() as $error)
                 errorMessages += "{{ $error }}";

@@ -40,7 +40,7 @@
                                 <select class="form-select" id="is_paid" name="is_paid" type="number" required
                                     min="0" max="1">
                                     <option value="0">False</option>
-                                    <option value="1">Ture</option>
+                                    <option value="1">True</option>
                                 </select>
                             </div>
                         </div>
@@ -75,7 +75,6 @@
                                 <th>Price</th>
                                 <th>Action</th>
                             </tr>
-
                         </thead>
                         <tfoot>
                             <tr>
@@ -95,7 +94,7 @@
                                     <td class="align-middle">{{ $table->name }}</td>
                                     <td class="align-middle">{{ number_format($table->capacity, 0, '.', '.') }}</td>
                                     <td class="align-middle">{{ $table->is_paid ? 'yes' : 'no' }}</td>
-                                    <td class="align-middle">{{ $table->is_paid ? 'Rp' . number_format($table->price, 0, '.', '.') : 'free' }}
+                                    <td class="align-middle">{{ $table->is_paid ? 'Rp' . number_format($table->price, 0, '.', '.') : 'Free' }}
                                     </td>
                                     <td>
                                         <button type="button" class="btn btn-primary btn-burger btn-sm me-3"
@@ -150,7 +149,7 @@
                                     <select class="form-select" id="is_paid" name="is_paid" type="number" required
                                         min="0" max="1">
                                         <option value="0">False</option>
-                                        <option value="1">Ture</option>
+                                        <option value="1">True</option>
                                     </select>
                                 </div>
                             </div>
