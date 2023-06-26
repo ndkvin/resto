@@ -5,6 +5,10 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers;
 use App\Http\Controllers\Admin\CashierConroller;
 use App\Http\Controllers\Admin\MenuController;
+use App\Http\Controllers\Manager\RevenueController;
+use App\Http\Controllers\Manager\TableController as ManagerTableController;
+use App\Http\Controllers\Manager\MenuController as ManagerMenuController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -18,7 +22,7 @@ use App\Http\Controllers\Admin\MenuController;
 */
 
 Route::get('/', function () {
-    return "Under Development";
+    return view('pages.manager.index');
 })->name('home');
 
 Auth::routes([
@@ -36,4 +40,15 @@ Route::group([
   Route::resource('menu', MenuController::class)->except(['create','edit']);
   Route::resource('table', TableController::class)->except(['create','edit']);
   Route::resource('cashier', CashierConroller::class)->except(['create','edit']);
+});
+
+Route::group([
+  'prefix' => 'manager',
+  'namespace' => 'App\Http\Controllers\Manager',
+  'middleware' => ['auth', 'manager'],
+  'as' => 'manager.',
+], function() {
+  Route::resource('menu', ManagerMenuController::class)->except(['create', 'edit']);
+  Route::resource('table', ManagerTableController::class)->except(['create', 'edit']);
+  Route::resource('revenue', RevenueController::class)->except(['create', 'edit']);
 });
