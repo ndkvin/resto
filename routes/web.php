@@ -3,10 +3,6 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers;
-use App\Http\Controllers\Admin\CashierConroller;
-use App\Http\Controllers\Admin\MenuController;
-use App\Http\Controllers\Cashier\BookingController;
-use App\Http\Controllers\Cashier\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,5 +45,5 @@ Route::group([
 ], function() {
   Route::resource('table', TableController::class)->except(['create', 'edit']);
   Route::resource('reservation', ReservationController::class)->except(['create', 'edit']);
-  Route::resource('order', OrderController::class)->except(['create', 'edit']);
+  Route::resource('order', OrderController::class);
 });

@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Cashier;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
+use App\Models\Menu;
+use App\Models\Order;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -11,8 +14,20 @@ class OrderController extends Controller
      * Display a listing of the resource.
      */
     public function index()
+    { 
+        $orders = Order::join('tables', 'tables.id', '=', 'orders.table_id')
+            ->join('users', 'users.id', '=', 'orders.created_by')
+            ->select('orders.*', 'tables.name as table_name', 'users.name as cashier_name')
+            ->get();
+
+        return view('pages.cashier.order.index', [
+          'orders' => $orders,
+        ]);
+    }
+
+    private function getMenus(string $categoryId)
     {
-        //
+      return Menu::where('category_id', $categoryId)->get();
     }
 
     /**
@@ -20,7 +35,17 @@ class OrderController extends Controller
      */
     public function create()
     {
-        //
+        $menus = [];
+        foreach(Category::all() as $category) {
+          array_push($menus, [
+            'category' => $category,
+            'menus' => $this->getMenus($category->id),
+          ]);
+        } 
+
+        return view('pages.cashier.order.create', [
+          'menus' => $menus,
+        ]);
     }
 
     /**

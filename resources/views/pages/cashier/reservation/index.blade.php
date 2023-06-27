@@ -81,7 +81,8 @@
                               <th>Name</th>
                               <th>Phone</th>
                               <th>Down Payment</th>
-                              <th>Price</th>
+                              <th>Date</th>
+                              <th>time</th>
                               <th>Table Name</th>
                               <th>Action</th>
                             </tr>
@@ -93,7 +94,8 @@
                                 <th>Name</th>
                                 <th>Phone</th>
                                 <th>Down Payment</th>
-                                <th>Price</th>
+                                <th>Date</th>
+                                <th>time</th>
                                 <th>Table Name</th>
                                 <th>Action</th>
                             </tr>
@@ -107,7 +109,8 @@
                                     <td class="align-middle">{{ $reservation->phone }}</td>
                                     <td class="align-middle">{{ 'Rp' . number_format($reservation->amount, 0, '.', '.') }}
                                     </td>
-                                    <td class="align-middle">{{ $reservation->date }}</td>
+                                    <td class="align-middle">{{ date("l, j F Y, H:i", strtotime($reservation->date)) }}</td>
+                                    <td class="align-middle">{{ date("H:i", strtotime($reservation->date)) }}</td>
                                     <td class="align-middle">{{ $reservation->table_name }}
                                     </td>
                                     <td>
