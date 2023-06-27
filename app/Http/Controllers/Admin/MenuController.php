@@ -93,7 +93,7 @@ class MenuController extends Controller
       if ($menu->orders()->count() > 0) {
         return redirect()
           ->route('admin.menu.index')
-          ->with('error', "Menu $menu->name used in order");
+          ->withErrors(["Menu $menu->name used in order"]);
       }
 
       Storage::delete('public/' . $menu->image);

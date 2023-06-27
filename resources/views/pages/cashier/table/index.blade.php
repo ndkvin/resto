@@ -227,8 +227,8 @@
 
             $('#deleteTable').on('show.bs.modal', function(e) {
                 var id = $(e.relatedTarget).data('id');
-                const url = `/admin/table/${id}`;
-                console.log(url)
+                const url = `/cashier/table/${id}`;
+
                 $.get(url, function(response) {
                     console.log(response)
                     $(e.currentTarget).find('form[action="/cashier/table/id"]').attr('action',

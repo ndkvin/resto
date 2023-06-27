@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger("order_id");
             $table->string('name');
             $table->string('phone');
-            $table->date('date');     
+            $table->dateTime('date');     
             $table->integer('amount');
             $table->timestamps();
 

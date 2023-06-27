@@ -4,7 +4,7 @@ namespace App\Http\Requests\Cashier\Reservation;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateRequest extends FormRequest
+class UpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,11 +22,11 @@ class CreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string',
-            'phone' => 'required|min:10|max:13',
-            'date' => 'required|date_format:Y-m-d H:i',
-            'table_id' => 'required|exists:tables,id',
-            'amount' => 'integer',
+          'name' => 'required|string',
+          'phone' => 'required|min:10|max:13',
+          'date' => 'required',
+          'table_id' => 'required|exists:tables,id',
+          'amount' => 'integer',
         ];
     }
 }

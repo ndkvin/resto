@@ -85,7 +85,7 @@ class TableController extends Controller
         if ($table->orders()->count() > 0) {
             return redirect()
               ->route('cashier.table.index')
-              ->with("error", "table $table->name used in orders, cannot delete");
+              ->withErrors(["table $table->name used in orders, cannot delete"]);
         }
         // delete
         $table->delete();

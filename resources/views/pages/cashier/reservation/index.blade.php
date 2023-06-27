@@ -43,16 +43,19 @@
                         <div class="col-md-12 mt-2">
                             <label for="amount" class="form-label">Table</label>
                             <div class="input-group mb-3">
-                                <select class="form-select" id="amount" name="table_id" type="number" aria-placeholder="Table">
+                                <select class="form-select" id="amount" name="table_id" type="number"
+                                    aria-placeholder="Table">
                                     @foreach ($tables as $table)
-                                        <option value="{{ $table->id }}">{{ "$table->name - Rp". number_format($table->price, 0, '.', '.')  }}</option>
+                                        <option value="{{ $table->id }}">
+                                            {{ "$table->name - Rp" . number_format($table->price, 0, '.', '.') }}</option>
                                     @endforeach
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-12 mt-2">
                             <label for="amount" class="form-label">Down Payment</label>
-                            <input type="number" class="form-control" id="amount" name="amount" placeholder="Down payment">
+                            <input type="number" class="form-control" id="amount" name="amount"
+                                placeholder="Down payment">
                         </div>
                         <input type="submit" id="createSubmit" class="d-none">
                     </form>
@@ -74,12 +77,13 @@
                     <table id="datatable4" class="display nowrap table" style="width:100%">
                         <thead>
                             <tr>
-                                <th>#</th>
-                                <th>Name</th>
-                                <th>Capacity</th>
-                                <th>Is Paid</th>
-                                <th>Price</th>
-                                <th>Action</th>
+                              <th>#</th>
+                              <th>Name</th>
+                              <th>Phone</th>
+                              <th>Down Payment</th>
+                              <th>Price</th>
+                              <th>Table Name</th>
+                              <th>Action</th>
                             </tr>
 
                         </thead>
@@ -87,42 +91,38 @@
                             <tr>
                                 <th>no</th>
                                 <th>Name</th>
-                                <th>Capacity</th>
-                                <th>Is Paid</th>
+                                <th>Phone</th>
+                                <th>Down Payment</th>
                                 <th>Price</th>
+                                <th>Table Name</th>
                                 <th>Action</th>
                             </tr>
                         </tfoot>
                         <tbody>
                             <?php $no = 1; ?>
-                            {{-- @foreach ($tables as $table)
+                            @foreach ($reservations as $reservation)
                                 <tr>
-                                    <td class="align-middle">{{ $table->id }}</td>
-                                    <td class="align-middle">{{ $table->name }}</td>
-                                    <td class="align-middle">{{ number_format($table->capacity, 0, '.', '.') }}</td>
-                                    <td class="align-middle">{{ $table->is_paid ? 'yes' : 'no' }}</td>
-                                    <td class="align-middle">{{ $table->is_paid ? 'Rp' . number_format($table->price, 0, '.', '.') : 'free' }}
+                                    <td class="align-middle">{{ $no }}</td>
+                                    <td class="align-middle">{{ $reservation->name }}</td>
+                                    <td class="align-middle">{{ $reservation->phone }}</td>
+                                    <td class="align-middle">{{ 'Rp' . number_format($reservation->amount, 0, '.', '.') }}
+                                    </td>
+                                    <td class="align-middle">{{ $reservation->date }}</td>
+                                    <td class="align-middle">{{ $reservation->table_name }}
                                     </td>
                                     <td>
                                         <button type="button" class="btn btn-primary btn-burger btn-sm me-3"
                                             data-bs-toggle="modal" data-bs-target="#edittable"
-                                            data-id="{{ $table->id }}">
-                                            <span class="material-symbols-outlined">
+                                            data-id="{{ $reservation->id }}">
+                                            <span
+                                                class="material-symbols-outlined d-flex justify-content-center align-item-center">
                                                 edit
-                                            </span>
-                                        </button>
-
-                                        <button type="button" class="btn btn-danger btn-burger btn-sm me-3"
-                                            data-bs-toggle="modal" data-bs-target="#deleteTable"
-                                            data-id="{{ $table->id }}">
-                                            <span class="material-symbols-outlined">
-                                                delete
                                             </span>
                                         </button>
                                     </td>
                                 </tr>
                                 <?php $no++; ?>
-                            @endforeach --}}
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -134,35 +134,45 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Edit table</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Edit Reservation</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="/cashier/table/id" method="POST" id="formCreate">
+                        <form action="/cashier/reservation/id" method="POST" id="formCreate">
                             @method('PUT')
                             @csrf
                             <div class="col-md-12">
-                                <label for="name" class="form-label">Name</label>
-                                <input type="text" class="form-control" id="name" name="name" required
-                                    min="3">
+                                <label for="name" class="form-label">Customer Name</label>
+                                <input type="text" class="form-control" id="name" name="name"
+                                    placeholder="Customer Name" required min="3">
                             </div>
                             <div class="col-md-12 mt-2">
-                                <label for="capacity" class="form-label">Capacity</label>
-                                <input type="number" class="form-control" id="capacity" name="capacity" required>
+                                <label for="phone" class="form-label">Phone Number</label>
+                                <input type="number" class="form-control" id="phone" name="phone"
+                                    placeholder="Phone Number" required>
                             </div>
                             <div class="col-md-12 mt-2">
-                                <label for="is_paid" class="form-label">Paid</label>
+                                <label for="date" class="form-label">Date</label>
+                                <input class="form-control flatpickr2" class="date" type="text" name="date"
+                                    placeholder="Select Date..">
+                            </div>
+                            <div class="col-md-12 mt-2">
+                                <label for="amount" class="form-label">Table</label>
                                 <div class="input-group mb-3">
-                                    <select class="form-select" id="is_paid" name="is_paid" type="number" required
-                                        min="0" max="1">
-                                        <option value="0">False</option>
-                                        <option value="1">Ture</option>
+                                    <select class="form-select" id="amount" name="table_id" type="number"
+                                        aria-placeholder="Table">
+                                        @foreach ($tables as $table)
+                                            <option value="{{ $table->id }}">
+                                                {{ "$table->name - Rp" . number_format($table->price, 0, '.', '.') }}
+                                            </option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-12 mt-2">
-                                <label for="price" class="form-label">Price</label>
-                                <input type="number" class="form-control" id="price" name="price">
+                                <label for="amount" class="form-label">Down Payment</label>
+                                <input type="number" class="form-control" id="amount" name="amount"
+                                    placeholder="Down payment">
                             </div>
                             <input type="submit" id="editSubmit" class="d-none">
                         </form>
@@ -175,31 +185,7 @@
             </div>
         </div>
 
-        {{-- delete modal --}}
-        <div class="modal fade" id="deleteTable" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Delete table</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        Are you sure to delete <span id="tableName"></span>?
-                        <form action="/cashier/table/id" method="POST" id="formCreate">
-                            @method('DELETE')
-                            @csrf
-                            <input type="submit" id="deleteSubmit" class="d-none">
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" onclick="submitDelete()">Yes</button>
-                    </div>
-                </div>
-            </div>
-        </div>
     @endsection
-
 
     @section('scripts')
         <script>
@@ -216,35 +202,21 @@
                 $('#editSubmit').click();
             }
 
-            function submitDelete() {
-                $('#deleteSubmit').click();
-            }
-
-
             $('#edittable').on('show.bs.modal', function(e) {
                 var id = $(e.relatedTarget).data('id');
-                const url = `/cashier/table/${id}`;
+                const url = `/cashier/reservation/${id}`;
 
                 $.get(url, function(response) {
-                    $(e.currentTarget).find('form[action="/cashier/table/id"]').attr('action',
-                        `/cashier/table/${id}`);
+                    response = response[0];
+                    console.log(url)
+                    $(e.currentTarget).find('form[action="/cashier/reservation/id"]').attr('action',
+                        `/cashier/reservation/${id}`);
                     $(e.currentTarget).find('input[name="name"]').val(response.name);
-                    $(e.currentTarget).find('input[name="capacity"]').val(response.capacity);
-                    $(e.currentTarget).find('input[name="price"]').val(response.price);
-                    $(e.currentTarget).find('select[name="category_id"]').val(response.category_id);
-                    $(e.currentTarget).find('img[id="img"]').attr('src', `/storage/${response.image}`);
-                });
-            });
-
-            $('#deleteTable').on('show.bs.modal', function(e) {
-                var id = $(e.relatedTarget).data('id');
-                const url = `/admin/table/${id}`;
-                console.log(url)
-                $.get(url, function(response) {
-                    console.log(response)
-                    $(e.currentTarget).find('form[action="/cashier/table/id"]').attr('action',
-                        `/cashier/table/${id}`);
-                    $('#tableName').text(response.name);
+                    $(e.currentTarget).find('input[name="phone"]').val(response.phone);
+                    $(e.currentTarget).find('input[name="amount"]').val(response.amount);
+                    $(e.currentTarget).find('input[type="datetime-local"]').val(response.date);
+                    $(e.currentTarget).find('input[name="date"]').val(response.date);
+                    $(e.currentTarget).find('select[name="table_id"]').val(response.table_id);    
                 });
             });
         </script>
