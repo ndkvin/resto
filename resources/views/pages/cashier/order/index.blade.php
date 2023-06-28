@@ -50,13 +50,13 @@
                                 <tr>
                                     <td class="align-middle">{{ $no }}</td>
                                     <td class="align-middle">{{ $order->cashier_name }}</td>
-                                    <td class="align-middle">{{ 'Rp' . number_format($order->amount, 0, '.', '.') }}
+                                    <td class="align-middle">{{ 'Rp' . number_format($order->total_price, 0, '.', '.') }}
                                     </td>
                                     <td class="align-middle">{{ date('l, j F Y', strtotime($order->created_at)) }}</td>
                                     <td class="align-middle">{{ $order->table_name }}</td>
                                     <td class="align-middle">
                                         @if ($order->is_paid)
-                                            <span class="badge badge-success">Success</span>
+                                            <span class="badge badge-success">Paid</span>
                                         @else
                                             <span class="badge badge-danger">Unpaid</span>
                                         @endif
@@ -69,6 +69,14 @@
                                             <span
                                                 class="material-symbols-outlined d-flex justify-content-center align-item-center">
                                                 edit
+                                            </span>
+                                        </button>
+                                        <button
+                                            onclick="window.location.href ='{{ route('cashier.order.show', $order->id) }}'"
+                                            class="btn btn-primary btn-burger btn-sm me-3" data-bs-toggle="modal"
+                                            data-bs-target="#edittable">
+                                            <span class="material-symbols-outlined d-flex justify-content-center align-item-center">
+                                              visibility
                                             </span>
                                         </button>
                                     </td>

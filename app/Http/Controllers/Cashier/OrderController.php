@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Cashier;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Cashier\Order\CreateRequest;
+use App\Http\Requests\Cashier\Order\UpdateRequest;
 use App\Models\Category;
 use App\Models\Menu;
 use App\Models\Order;
@@ -23,6 +24,7 @@ class OrderController extends Controller
     $orders = Order::join('tables', 'tables.id', '=', 'orders.table_id')
       ->join('users', 'users.id', '=', 'orders.created_by')
       ->select('orders.*', 'tables.name as table_name', 'users.name as cashier_name')
+      ->orderBy('orders.created_at', 'desc')
       ->get();
 
     return view('pages.cashier.order.index', [
@@ -57,7 +59,7 @@ class OrderController extends Controller
   {
     $table = Table::find($request->table_id);
 
-    if($request->nominal < $table->price) {
+    if ($request->nominal < $table->price) {
       return true;
     }
   }
@@ -82,11 +84,11 @@ class OrderController extends Controller
         'is_paid' => $request->is_paid,
       ]);
 
-      if($request->nominal > 0) {
+      if ($request->nominal > 0) {
         Payment::create([
           'order_id' => $order->id,
           'amount' => $request->nominal,
-          'payment_method' => $request->peyment_method,
+          'payment_method' => $request->payment_method,
           'rekening' => $request->rekening,
         ]);
       }
@@ -95,7 +97,7 @@ class OrderController extends Controller
       return redirect()
         ->route('cashier.order.index')
         ->with('success', 'Order successfully created');
-    } catch(\Exception $e) {
+    } catch (\Exception $e) {
       DB::rollBack();
       return redirect()
         ->route('cashier.order.create')
@@ -117,7 +119,7 @@ class OrderController extends Controller
   private function storeMenu($request, $orderId)
   {
     foreach ($request->menu_id as $index => $menu_id) {
-      if($request->amount[$index] > 0) {
+      if ($request->amount[$index] > 0) {
         OrderItem::create([
           'order_id' => $orderId,
           'menu_id' => $menu_id,
@@ -131,25 +133,69 @@ class OrderController extends Controller
   /**
    * Display the specified resource.
    */
-  public function show(string $id)
+  public function show(Order $order)
   {
-    //
+    $payments = Payment::where('order_id', $order->id)->get();
+    $totalPaid = 0;
+
+    foreach ($payments as $payment) {
+      $totalPaid += $payment->amount;
+    }
+    return view('pages.cashier.order.show', [
+      'order' => $order,
+      'menus' => OrderItem::with(['menu'])->where('order_id', $order->id)->get(),
+      'payments' => $payments,
+      'total_paid' => $totalPaid,
+    ]);
   }
 
   /**
    * Show the form for editing the specified resource.
    */
-  public function edit(string $id)
+  public function edit(Order $order)
   {
-    //
+    $payments = Payment::where('order_id', $order->id)->get();
+    $totalPaid = 0;
+
+    foreach ($payments as $payment) {
+      $totalPaid += $payment->amount;
+    }
+    return view('pages.cashier.order.edit', [
+      'order' => $order,
+      'menus' => OrderItem::with(['menu'])->where('order_id', $order->id)->get(),
+      'payments' => $payments,
+      'total_paid' => $totalPaid,
+      'tables' => Table::all(),
+    ]);
   }
 
   /**
    * Update the specified resource in storage.
    */
-  public function update(Request $request, string $id)
+  public function update(UpdateRequest $request, Order $order)
   {
-    //
+      DB::beginTransaction();
+      try {
+        $order->update([
+          'is_paid' => $request->is_paid,
+        ]);
+        Payment::create([
+          'order_id' => $order->id,
+          'amount' => $request->nominal,
+          'payment_method' => $request->payment_method,
+          'rekening' => $request->rekening,
+        ]);
+
+        DB::commit();
+        return redirect()
+          ->route('cashier.order.index')
+          ->with('success', 'Order successfully updated');
+      } catch (\Exception $e) {
+          DB::rollBack();
+          return redirect()
+              ->route('cashier.order.edit', $order->id)
+              ->withErrors([$e->getMessage()]);
+      }
   }
 
   /**

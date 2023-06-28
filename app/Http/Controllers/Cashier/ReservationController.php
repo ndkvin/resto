@@ -23,6 +23,7 @@ class ReservationController extends Controller
     $reservations = Reservation::join('orders', 'orders.id', '=', 'reservations.order_id')
       ->join('tables', 'tables.id', '=', 'orders.table_id')
       ->select('reservations.*', 'tables.name as table_name')
+      ->orderBy('orders.created_at', 'desc')
       ->get();
 
     return view('pages.cashier.reservation.index', [

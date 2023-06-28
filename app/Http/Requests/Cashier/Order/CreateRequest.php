@@ -30,6 +30,7 @@ class CreateRequest extends FormRequest
             'is_paid' => 'required|boolean',
             'nominal' => 'integer',
             'rekening' => 'integer',
+            'payment_method' => 'required|string'
         ];
     }
 }
