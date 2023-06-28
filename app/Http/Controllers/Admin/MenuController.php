@@ -9,6 +9,7 @@ use App\Models\Category;
 use App\Models\Menu;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class MenuController extends Controller
 {
@@ -31,6 +32,20 @@ class MenuController extends Controller
         //
     }
 
+    function createUniqueSlug($input)
+    {
+      $slug = Str::slug($input);
+      $uniqueSlug = $slug;
+      $counter = 1;
+  
+      while (Menu::where('slug', $uniqueSlug)->exists()) {
+        $uniqueSlug = $slug . '-' . $counter;
+        $counter++;
+      }
+
+      return $uniqueSlug;
+    }
+
     /**
      * Store a newly created resource in storage.
      */
@@ -41,6 +56,7 @@ class MenuController extends Controller
 
         $menu = $request->all();
         $menu['image'] = $url;
+        $menu['slug'] = $this->createUniqueSlug($request->name);
         $menu = Menu::create($menu);
 
         return redirect()
@@ -75,6 +91,11 @@ class MenuController extends Controller
         Storage::delete('public/' . $menu->image);
         $url = $request->file('image')->store('images/menu', 'public');
         $data['image'] = $url;
+      }
+
+      // if name change
+      if ($request->name != $menu->name) {
+        $data['slug'] = $this->createUniqueSlug($request->name);
       }
 
       $menu->update($data);
