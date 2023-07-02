@@ -3,6 +3,12 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers;
+use App\Http\Controllers\Admin\CashierConroller;
+use App\Http\Controllers\Admin\MenuController;
+use App\Http\Controllers\Manager\RevenueController;
+use App\Http\Controllers\Manager\TableController as ManagerTableController;
+use App\Http\Controllers\Manager\MenuController as ManagerMenuController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -16,7 +22,7 @@ use App\Http\Controllers;
 */
 
 Route::get('/', function () {
-    return Auth::user();
+    return view('pages.manager.index');
 })->name('home');
 
 Auth::routes([
@@ -36,6 +42,16 @@ Route::group([
   Route::resource('cashier', CashierConroller::class)->except(['create','edit']);
 });
 
+Route::group([
+  'prefix' => 'manager',
+  'namespace' => 'App\Http\Controllers\Manager',
+  'middleware' => ['auth', 'manager'],
+  'as' => 'manager.',
+], function() {
+  Route::resource('menu', ManagerMenuController::class)->except(['create', 'edit']);
+  Route::resource('table', ManagerTableController::class)->except(['create', 'edit']);
+  Route::resource('revenue', RevenueController::class)->except(['create', 'edit']);
+});
 
 Route::group([
   'prefix' => 'cashier',
