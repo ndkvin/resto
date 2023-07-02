@@ -81,12 +81,10 @@
                         @if ($order->is_paid)
                             <span class="badge badge-success">Paid</span>
                         @else
-                            <p class="d-flex">
                             <div class="badge badge-danger">Unpaid</div>
-                            <span
-                                id="total">-{{ 'Rp' . number_format($order->total_price - $total_paid, 0, '.', '.') }}</span>
-                            </p>
                         @endif
+                        <p class="">Unpaid<span
+                          id="total">{{ 'Rp' . number_format($order->total_price - $total_paid, 0, '.', '.') }}</span></p>
                         <p class="">Menu Total <span
                                 id="total">{{ 'Rp' . number_format($total, 0, '.', '.') }}</span></p>
                         <p class="">Table Price <span

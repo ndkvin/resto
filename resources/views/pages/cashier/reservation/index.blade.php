@@ -52,6 +52,32 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="col-md-12">
+                            <label for="peyment_method" class="form-label">Payment Method</label>
+                            <select class="form-select" id="peyment_method" name="payment_method"
+                                aria-placeholder="payment">
+                                <option value="cash">
+                                    Cash
+                                </option>
+                                <option value="mandiri">
+                                    Mandiri
+                                </option>
+                                <option value="bri">
+                                    BRI
+                                </option>
+                                <option value="bni">
+                                    BNI
+                                </option>
+                                <option value="bca">
+                                    BCA
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-md-12 mt-2">
+                            <label for="rekening" class="form-label">Nomor Rekening</label>
+                            <input type="number" class="form-control" id="norek" name="rekening"
+                                placeholder="Nomor Rekening">
+                        </div>
                         <div class="col-md-12 mt-2">
                             <label for="amount" class="form-label">Down Payment</label>
                             <input type="number" class="form-control" id="amount" name="amount"
@@ -77,14 +103,14 @@
                     <table id="datatable4" class="display nowrap table" style="width:100%">
                         <thead>
                             <tr>
-                              <th>#</th>
-                              <th>Name</th>
-                              <th>Phone</th>
-                              <th>Down Payment</th>
-                              <th>Date</th>
-                              <th>time</th>
-                              <th>Table Name</th>
-                              <th>Action</th>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Phone</th>
+                                <th>Down Payment</th>
+                                <th>Date</th>
+                                <th>time</th>
+                                <th>Table Name</th>
+                                <th>Action</th>
                             </tr>
 
                         </thead>
@@ -109,8 +135,9 @@
                                     <td class="align-middle">{{ $reservation->phone }}</td>
                                     <td class="align-middle">{{ 'Rp' . number_format($reservation->amount, 0, '.', '.') }}
                                     </td>
-                                    <td class="align-middle">{{ date("l, j F Y, H:i", strtotime($reservation->date)) }}</td>
-                                    <td class="align-middle">{{ date("H:i", strtotime($reservation->date)) }}</td>
+                                    <td class="align-middle">{{ date('l, j F Y, H:i', strtotime($reservation->date)) }}
+                                    </td>
+                                    <td class="align-middle">{{ date('H:i', strtotime($reservation->date)) }}</td>
                                     <td class="align-middle">{{ $reservation->table_name }}
                                     </td>
                                     <td>
@@ -172,6 +199,32 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="col-md-12">
+                                <label for="peyment_method" class="form-label">Payment Method</label>
+                                <select class="form-select" id="peyment_method" name="payment_method"
+                                    aria-placeholder="payment">
+                                    <option value="cash">
+                                        Cash
+                                    </option>
+                                    <option value="mandiri">
+                                        Mandiri
+                                    </option>
+                                    <option value="bri">
+                                        BRI
+                                    </option>
+                                    <option value="bni">
+                                        BNI
+                                    </option>
+                                    <option value="bca">
+                                        BCA
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-md-12 mt-2">
+                                <label for="rekening" class="form-label">Nomor Rekening</label>
+                                <input type="number" class="form-control" id="norek" name="rekening"
+                                    placeholder="Nomor Rekening">
+                            </div>
                             <div class="col-md-12 mt-2">
                                 <label for="amount" class="form-label">Down Payment</label>
                                 <input type="number" class="form-control" id="amount" name="amount"
@@ -187,7 +240,6 @@
                 </div>
             </div>
         </div>
-
     @endsection
 
     @section('scripts')
@@ -211,7 +263,7 @@
 
                 $.get(url, function(response) {
                     response = response[0];
-                    console.log(url)
+                    console.log(response)
                     $(e.currentTarget).find('form[action="/cashier/reservation/id"]').attr('action',
                         `/cashier/reservation/${id}`);
                     $(e.currentTarget).find('input[name="name"]').val(response.name);
@@ -219,7 +271,9 @@
                     $(e.currentTarget).find('input[name="amount"]').val(response.amount);
                     $(e.currentTarget).find('input[type="datetime-local"]').val(response.date);
                     $(e.currentTarget).find('input[name="date"]').val(response.date);
-                    $(e.currentTarget).find('select[name="table_id"]').val(response.table_id);    
+                    $(e.currentTarget).find('select[name="table_id"]').val(response.table_id);
+                    $(e.currentTarget).find('select[name="payment_method"]').val(response.payment_method);
+                    $(e.currentTarget).find('input[name="rekening"]').val(response.rekening);
                 });
             });
         </script>

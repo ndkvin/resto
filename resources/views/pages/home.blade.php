@@ -102,17 +102,19 @@
                         <li><a href="{{ route('login') }}" class="btn_top">Login</a></li>
                     @endguest
 
-                    @if (auth()->user()->role == 'ADMIN')
-                        <li><a href="{{ route('admin.category.index') }}" class="btn_top">Dashboard</a></li>
-                    @endif
+                    @auth
+                        @if (auth()->user()->role == 'ADMIN')
+                            <li><a href="{{ route('admin.category.index') }}" class="btn_top">Dashboard</a></li>
+                        @endif
 
-                    @if (auth()->user()->role == 'CASHIER')
-                        <li><a href="{{ route('cashier.reservation.index') }}" class="btn_top">Dashboard</a></li>
-                    @endif
+                        @if (auth()->user()->role == 'CASHIER')
+                            <li><a href="{{ route('cashier.reservation.index') }}" class="btn_top">Dashboard</a></li>
+                        @endif
 
-                    @if (auth()->user()->role == 'MANAGER')
-                        <li><a href="{{ route('manager.menu.index') }}" class="btn_top">Dashboard</a></li>
-                    @endif
+                        @if (auth()->user()->role == 'MANAGER')
+                            <li><a href="{{ route('manager.menu.index') }}" class="btn_top">Dashboard</a></li>
+                        @endif
+                    @endauth
                 </ul>
             </nav>
         </div>
@@ -257,7 +259,7 @@
             <hr>
             <div class="row">
                 <div class="col-sm-5">
-                    <p class="copy">© Foores Restaurant - All rights reserved</p>
+                    <p class="copy">©Restaurant - All rights reserved</p>
                 </div>
                 <div class="col-sm-7">
                     <div class="follow_us">

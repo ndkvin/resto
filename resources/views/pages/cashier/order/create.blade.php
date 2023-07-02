@@ -3,87 +3,86 @@
 @section('title', 'Order')
 
 @section('content')
-<form action="{{ route('cashier.order.store') }}" method="POST" class="ORDER">
-    <div class="row">
-        <div class="card">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-10 mx-auto col-md-6 mt-2">
-                        <label for="amount" class="form-label">Table</label>
-                        <div class="input-group mb-3">
-                            <select class="form-select" id="table_id" name="table_id" type="number"
-                                aria-placeholder="Table">
-                                @foreach ($tables as $table)
-                                    <option value="{{ $table->id }}">
-                                        {{ "$table->name - Rp" . number_format($table->price, 0, '.', '.') }}</option>
-                                @endforeach
-                            </select>
+    <form action="{{ route('cashier.order.store') }}" method="POST" class="ORDER">
+        <div class="row">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-10 mx-auto col-md-6 mt-2">
+                            <label for="amount" class="form-label">Table</label>
+                            <div class="input-group mb-3">
+                                <select class="form-select" id="table_id" name="table_id" type="number"
+                                    aria-placeholder="Table">
+                                    @foreach ($tables as $table)
+                                        <option value="{{ $table->id }}">
+                                            {{ "$table->name - Rp" . number_format($table->price, 0, '.', '.') }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-10 mx-auto col-md-6 mt-2">
-                        <label for="is_paid" class="form-label">Lunas</label>
-                        <div class="input-group mb-3">
-                            <select class="form-select" id="is_paid" name="is_paid" type="number"
-                                aria-placeholder="Table">
-                                <option value="0">
-                                    Tidak
-                                </option>
-                                <option value="1">
-                                    Ya
-                                </option>
-                            </select>
+                        <div class="col-10 mx-auto col-md-6 mt-2">
+                            <label for="is_paid" class="form-label">Lunas</label>
+                            <div class="input-group mb-3">
+                                <select class="form-select" id="is_paid" name="is_paid" type="number"
+                                    aria-placeholder="Table">
+                                    <option value="0">
+                                        Tidak
+                                    </option>
+                                    <option value="1">
+                                        Ya
+                                    </option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-10 mx-auto col-md-6 mt-2">
-                        <label for="peyment_method" class="form-label">Payment</label>
-                        <div class="input-group mb-3">
-                            <select class="form-select" id="table_id" name="peyment_method"
-                                aria-placeholder="Table">
-                                <option value="cash">
-                                    Cash
-                                </option>
-                                <option value="mandiri">
-                                    Mandiri
-                                </option>
-                                <option value="bri">
-                                    BRI
-                                </option>
-                                <option value="bni">
-                                    BNI
-                                </option>
-                                <option value="bca">
-                                    BCA
-                                </option>
-                            </select>
+                        <div class="col-10 mx-auto col-md-6 mt-2">
+                            <label for="peyment_method" class="form-label">Payment</label>
+                            <div class="input-group mb-3">
+                                <select class="form-select" id="table_id" name="peyment_method" aria-placeholder="Table">
+                                    <option value="cash">
+                                        Cash
+                                    </option>
+                                    <option value="mandiri">
+                                        Mandiri
+                                    </option>
+                                    <option value="bri">
+                                        BRI
+                                    </option>
+                                    <option value="bni">
+                                        BNI
+                                    </option>
+                                    <option value="bca">
+                                        BCA
+                                    </option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-10 mx-auto col-md-6 mt-2">
-                        <label for="rekening" class="form-label">Rekening</label>
-                        <input type="number" class="form-control" id="rekening" name="rekening">
-                    </div>
-                    <div class="col-10 mx-auto col-md-6 mt-2">
-                        <label for="nominal" class="form-label">Nominal</label>
-                        <input type="number" class="form-control" id="nominal" name="nominal">
+                        <div class="col-10 mx-auto col-md-6 mt-2">
+                            <label for="rekening" class="form-label">Rekening</label>
+                            <input type="number" class="form-control" id="rekening" name="rekening">
+                        </div>
+                        <div class="col-10 mx-auto col-md-6 mt-2">
+                            <label for="nominal" class="form-label">Nominal</label>
+                            <input type="number" class="form-control" id="nominal" name="nominal">
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col">
-            <div class="page-description page-description-tabbed">
-                <h1>Menus</h1>
-                <ul class="nav nav-tabs mb-3" id="myTab" role="tablist">
-                    @foreach ($menus as $index => $menu)
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link {{ $index == 0 ? 'active' : '' }}"
-                                id="{{ $menu['category']->slug }}-tab" data-bs-toggle="tab"
-                                data-bs-target="#{{ $menu['category']->slug }}" type="button" role="tab"
-                                aria-controls="hoaccountme" aria-selected="true">{{ $menu['category']->name }}</button>
-                        </li>
-                    @endforeach
-                </ul>
+            <div class="col">
+                <div class="page-description page-description-tabbed">
+                    <h1>Menus</h1>
+                    <ul class="nav nav-tabs mb-3" id="myTab" role="tablist">
+                        @foreach ($menus as $index => $menu)
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link {{ $index == 0 ? 'active' : '' }}"
+                                    id="{{ $menu['category']->slug }}-tab" data-bs-toggle="tab"
+                                    data-bs-target="#{{ $menu['category']->slug }}" type="button" role="tab"
+                                    aria-controls="hoaccountme" aria-selected="true">{{ $menu['category']->name }}</button>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
 
         @csrf
         <div class="row">
@@ -166,6 +165,8 @@
                     </div>
                     <div class="col-lg-3">
                         <div class="invoice-info">
+                            <p class="bold">Table Price <span id="table">Rp0</span></p>
+                            <p class="bold">Menu Price <span id="menu">Rp0</span></p>
                             <p class="bold">Total <span id="total">Rp0</span></p>
                             <div class="invoice-info-actions">
                                 <button class="btn btn-primary w-100" type="submit">Place Order</button>
@@ -183,6 +184,7 @@
         let order = {
             menus: [],
             total: 0,
+            table: 0,
         }
 
         $('.min').click(function() {
@@ -236,7 +238,7 @@
         });
 
         function calculateTotal() {
-            var total = 0;
+            var total = order.table;
             order.menus.forEach(function(menu) {
                 total += menu.price * menu.amount;
             });
@@ -254,13 +256,32 @@
                 <td>${menu.name}</td>
                 <td>Rp.${menu.price}</td>
                 <td>${menu.amount}</td>
-                <td>Rp.${menu.price * menu.amount}</td>
+                <td>Rp${menu.price * menu.amount}</td>
               </tr>
             `);
             });
 
             // show total
-            $('#total').text(`Rp.${order.total}`);
+            $('#total').text(`Rp${order.total}`);
+            $('#menu').text(`Rp${order.total-order.table}`);
+            $('#table').text(`Rp${order.table}`);
         }
+
+        $('#table_id').on('change', function() {
+            // get value from select
+            var tableId = $(this).val();
+
+            let url = `/cashier/table/${tableId}`;
+
+            $.ajax({
+                url,
+                method: 'GET',
+                success: function(data) {
+                    order.table = data.price;
+                    calculateTotal();
+                    showOrder()
+                }
+            })
+        })
     </script>
 @endsection
