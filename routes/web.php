@@ -22,7 +22,7 @@ use App\Http\Controllers\Manager\MenuController as ManagerMenuController;
 */
 
 Route::get('/', function () {
-    return view('pages.manager.index');
+    return view('pages.home');
 })->name('home');
 
 Auth::routes([
