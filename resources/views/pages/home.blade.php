@@ -112,7 +112,7 @@
                         @endif
 
                         @if (auth()->user()->role == 'MANAGER')
-                            <li><a href="{{ route('manager.menu.index') }}" class="btn_top">Dashboard</a></li>
+                            <li><a href="{{ route('manager.home') }}" class="btn_top">Dashboard</a></li>
                         @endif
                     @endauth
                 </ul>

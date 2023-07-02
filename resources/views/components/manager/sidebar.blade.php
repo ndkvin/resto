@@ -1,7 +1,9 @@
 <div class="app-sidebar">
     <div class="logo d-flex justify-content-between">
         <div class="fs-2 fw-bold">
-            Resto
+            <a href="{{ route('manager.home') }}" style="text-decoration:none;color:black">
+                Resto
+            </a>
         </div>
         <div class="sidebar-user-switcher user-activity-online d-flex align-items-center justify-content-center">
             <a href="#" class="d-flex align-items-center justify-content-center">

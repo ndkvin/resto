@@ -6,6 +6,7 @@ use App\Http\Controllers;
 use App\Http\Controllers\Admin\CashierConroller;
 use App\Http\Controllers\Admin\ManagerController;
 use App\Http\Controllers\Admin\MenuController;
+use App\Http\Controllers\Manager\HomeController;
 use App\Http\Controllers\Manager\RevenueController;
 use App\Http\Controllers\Manager\TableController as ManagerTableController;
 use App\Http\Controllers\Manager\MenuController as ManagerMenuController;
@@ -50,6 +51,7 @@ Route::group([
   'middleware' => ['auth', 'manager'],
   'as' => 'manager.',
 ], function() {
+  Route::get('/', [HomeController::class, 'index'])->name('home');
   Route::resource('menu', ManagerMenuController::class)->except(['create', 'edit']);
   Route::resource('table', ManagerTableController::class)->except(['create', 'edit']);
   Route::resource('revenue', RevenueController::class)->except(['create', 'edit']);
