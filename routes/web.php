@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers;
 use App\Http\Controllers\Admin\CashierConroller;
+use App\Http\Controllers\Admin\ManagerController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Manager\RevenueController;
 use App\Http\Controllers\Manager\TableController as ManagerTableController;
@@ -40,6 +41,7 @@ Route::group([
   Route::resource('menu', MenuController::class)->except(['create','edit']);
   Route::resource('table', TableController::class)->except(['create','edit']);
   Route::resource('cashier', CashierConroller::class)->except(['create','edit']);
+  Route::resource('manager', ManagerController::class)->except(['create','edit']);
 });
 
 Route::group([

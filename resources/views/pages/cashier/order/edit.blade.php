@@ -178,10 +178,10 @@
                             <div class="input-group mb-3">
                                 <select class="form-select" id="is_paid" name="is_paid" type="number"
                                     aria-placeholder="Table">
-                                    <option value="0">
+                                    <option value="0" {{ $order->is_paid == 0 ? 'selected' : ''}}>
                                         Tidak
                                     </option>
-                                    <option value="1">
+                                    <option value="1" {{ $order->is_paid == 1 ? 'selected' : ''}}>
                                         Ya
                                     </option>
                                 </select>
