@@ -22,6 +22,11 @@ class UpdateRequest extends FormRequest
   public function rules(): array
   {
     return [
+      'table_id' => 'required|exists:tables,id',
+      'menu_id' => 'required|array',
+      'menu_id.*' => 'integer|exists:menus,id',
+      'amount' => 'required|array',
+      'amount.*' => 'integer',
       'is_paid' => 'required|boolean',
       'nominal' => 'integer',
       'rekening' => 'integer',

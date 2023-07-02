@@ -35,9 +35,9 @@
                             </div>
                         </div>
                         <div class="col-10 mx-auto col-md-6 mt-2">
-                            <label for="peyment_method" class="form-label">Payment</label>
+                            <label for="payment_method" class="form-label">Payment</label>
                             <div class="input-group mb-3">
-                                <select class="form-select" id="table_id" name="peyment_method" aria-placeholder="Table">
+                                <select class="form-select" id="table_id" name="payment_method" aria-placeholder="Table">
                                     <option value="cash">
                                         Cash
                                     </option>

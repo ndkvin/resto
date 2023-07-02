@@ -26,6 +26,8 @@
                             <tr>
                                 <th>#</th>
                                 <th>Cashier Name</th>
+                                <th>Customer Name</th>
+                                <th>Reservation</th>
                                 <th>Date</th>
                                 <th>time</th>
                                 <th>Table Name</th>
@@ -37,6 +39,8 @@
                             <tr>
                                 <th>#</th>
                                 <th>Cashier Name</th>
+                                <th>Customer Name</th>
+                                <th>Reservation</th>
                                 <th>Date</th>
                                 <th>time</th>
                                 <th>Table Name</th>
@@ -50,6 +54,8 @@
                                 <tr>
                                     <td class="align-middle">{{ $no }}</td>
                                     <td class="align-middle">{{ $order->cashier_name }}</td>
+                                    <td class="align-middle">{{ $order->customer_name == null ? "null" : $order->customer_name}}</td>
+                                    <td class="align-middle">{{ $order->customer_name == null ? "no" : "yes" }}</td>
                                     <td class="align-middle">{{ 'Rp' . number_format($order->total_price, 0, '.', '.') }}
                                     </td>
                                     <td class="align-middle">{{ date('l, j F Y', strtotime($order->created_at)) }}</td>
