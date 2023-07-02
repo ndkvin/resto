@@ -12,9 +12,7 @@
     <div class="app-menu">
         <ul class="accordion-menu">
             <li class="sidebar-title">
-                <a href="{{ route('manager') }}">
-                  Resto
-                </a>
+              Resto
             </li>
             <li class="active-page">
                 <a href="">
