@@ -52,3 +52,14 @@ Route::group([
   Route::resource('table', ManagerTableController::class)->except(['create', 'edit']);
   Route::resource('revenue', RevenueController::class)->except(['create', 'edit']);
 });
+
+Route::group([
+  'prefix' => 'cashier',
+  'namespace' => 'App\Http\Controllers\Cashier',
+  'middleware' => ['auth', 'cashier'],
+  'as' => 'cashier.',
+], function() {
+  Route::resource('table', TableController::class)->except(['create', 'edit']);
+  Route::resource('reservation', ReservationController::class)->except(['create', 'edit']);
+  Route::resource('order', OrderController::class);
+});

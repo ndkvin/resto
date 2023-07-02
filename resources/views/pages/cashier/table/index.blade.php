@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.cashier')
 
 @section('title')
     Admin Dashboard
@@ -22,7 +22,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ route('admin.table.store') }}" method="POST" id="formCreate"
+                    <form action="{{ route('cashier.table.store') }}" method="POST" id="formCreate"
                         enctype="multipart/form-data">
                         @csrf
                         <div class="col-md-12">
@@ -75,6 +75,7 @@
                                 <th>Price</th>
                                 <th>Action</th>
                             </tr>
+
                         </thead>
                         <tfoot>
                             <tr>
@@ -131,7 +132,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="/admin/table/id" method="POST" id="formCreate">
+                        <form action="/cashier/table/id" method="POST" id="formCreate">
                             @method('PUT')
                             @csrf
                             <div class="col-md-12">
@@ -178,7 +179,7 @@
                     </div>
                     <div class="modal-body">
                         Are you sure to delete <span id="tableName"></span>?
-                        <form action="/admin/table/id" method="POST" id="formCreate">
+                        <form action="/cashier/table/id" method="POST" id="formCreate">
                             @method('DELETE')
                             @csrf
                             <input type="submit" id="deleteSubmit" class="d-none">
@@ -211,11 +212,11 @@
 
             $('#edittable').on('show.bs.modal', function(e) {
                 var id = $(e.relatedTarget).data('id');
-                const url = `/admin/table/${id}`;
+                const url = `/cashier/table/${id}`;
 
                 $.get(url, function(response) {
-                    $(e.currentTarget).find('form[action="/admin/table/id"]').attr('action',
-                        `/admin/table/${id}`);
+                    $(e.currentTarget).find('form[action="/cashier/table/id"]').attr('action',
+                        `/cashier/table/${id}`);
                     $(e.currentTarget).find('input[name="name"]').val(response.name);
                     $(e.currentTarget).find('input[name="capacity"]').val(response.capacity);
                     $(e.currentTarget).find('input[name="price"]').val(response.price);
@@ -226,12 +227,12 @@
 
             $('#deleteTable').on('show.bs.modal', function(e) {
                 var id = $(e.relatedTarget).data('id');
-                const url = `/admin/table/${id}`;
-                console.log(url)
+                const url = `/cashier/table/${id}`;
+
                 $.get(url, function(response) {
                     console.log(response)
-                    $(e.currentTarget).find('form[action="/admin/table/id"]').attr('action',
-                        `/admin/table/${id}`);
+                    $(e.currentTarget).find('form[action="/cashier/table/id"]').attr('action',
+                        `/cashier/table/${id}`);
                     $('#tableName').text(response.name);
                 });
             });

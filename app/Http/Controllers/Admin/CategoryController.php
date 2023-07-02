@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Category\CreateRequest;
 use App\Http\Requests\Admin\Category\UpdateRequest;
 use App\Models\Category;
+use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
@@ -28,12 +29,31 @@ class CategoryController extends Controller
     //
   }
 
+
+
+  function createUniqueSlug($input)
+  {
+    $slug = Str::slug($input);
+    $uniqueSlug = $slug;
+    $counter = 1;
+
+    while (Category::where('slug', $uniqueSlug)->exists()) {
+      $uniqueSlug = $slug . '-' . $counter;
+      $counter++;
+    }
+
+    return $uniqueSlug;
+  }
   /**
    * Store a newly created resource in storage.
    */
   public function store(CreateRequest $request)
   {
-    $category = Category::create($request->all());
+
+    $category = Category::create([
+      'name' => $request->name,
+      'slug' => $this->createUniqueSlug($request->name),
+    ]);
 
     return redirect()
       ->route('admin.category.index')
@@ -53,7 +73,6 @@ class CategoryController extends Controller
    */
   public function edit(Category $category)
   {
-    
   }
 
   /**
@@ -61,10 +80,15 @@ class CategoryController extends Controller
    */
   public function update(UpdateRequest $request, Category $category)
   {
+    $data = $request->all();
+
+    // jika nama berbeda
+    if ($request->name != $category->name) {
+      $data['slug'] = $this->createUniqueSlug($request->name);
+    }
+
     // update category
-    $category->update([
-      'name' => $request->name,
-    ]);
+    $category->update($data);
 
     return redirect()
       ->route('admin.category.index')

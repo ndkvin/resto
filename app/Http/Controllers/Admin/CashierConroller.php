@@ -96,17 +96,19 @@ class CashierConroller extends Controller
    */
   public function destroy(User $cashier)
   {
+
+    $name = $cashier->name ;
     // check if user used in orders
     if ($cashier->orders()->count() > 0) {
       return redirect()
         ->route('admin.cashier.index')
-        ->with('error', "Cashier $cashier->name can't be deleted because it's used in orders");
+        ->withErrors(["Cashier $name cant be deleted because its used in orders"]);
     }
 
     $cashier->delete();
 
     return redirect()
       ->route('admin.cashier.index')
-      ->with('success', "Cashier $cashier->name deleted succressfully");
+      ->with('success', "Cashier $name deleted succressfully");
   }
 }

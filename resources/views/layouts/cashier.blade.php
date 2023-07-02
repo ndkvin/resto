@@ -33,14 +33,15 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/neptune.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/neptune.png" />
     <link href="/assets/plugins/datatables/datatables.min.css" rel="stylesheet">
+    <link href="/assets/plugins/flatpickr/flatpickr.min.css" rel="stylesheet">
     @yield('header')
 </head>
 
 <body>
     <div class="app align-content-stretch d-flex flex-wrap">
-        @include('components.admin.sidebar')
+        @include('components.cashier.sidebar')
         <div class="app-container">
-            @include('components.admin.header')
+            @include('components.cashier.header')
             <div class="app-content">
                 <div class="content-wrapper">
                     <div class="container-fluid">
@@ -62,10 +63,11 @@
     <script src="/assets/js/custom.js"></script>
     <script src="/assets/plugins/datatables/datatables.min.js"></script>
     <script src="/assets/js/pages/datatables.js"></script>
+    <script src="/assets/plugins/flatpickr/flatpickr.js"></script>
+    <script src="/assets/js/pages/datepickers.js"></script>
     @yield('scripts')
     @if ($errors->any())
         <script>
-            console.log('errror')
             let errorMessages = '';
             @foreach ($errors->all() as $error)
                 errorMessages += "{{ $error }}";
@@ -74,6 +76,15 @@
                 icon: 'error',
                 title: 'Oops...',
                 text: errorMessages,
+            })
+        </script>
+    @endif
+    @if (session('err'))
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: "{{ session('err') }}",
             })
         </script>
     @endif
@@ -86,6 +97,5 @@
             })
         </script>
     @endif
-</body>
 
 </html>

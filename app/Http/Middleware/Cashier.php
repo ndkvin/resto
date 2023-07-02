@@ -21,7 +21,7 @@ class Cashier
 
       $user = User::where('id', $id)->first();
 
-      if ($user->role == 'CASSIER') {
+      if ($user->role == 'CASHIER') {
         return $next($request);
       } else {
         return redirect()->route('home');

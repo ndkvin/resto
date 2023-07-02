@@ -13,10 +13,8 @@ class Reservation extends Model
       'order_id',
       'name',
       'phone',
-      'email',
+      'amount',
       'date',
-      'time',
-      'message'
     ];
 
     public function order()
