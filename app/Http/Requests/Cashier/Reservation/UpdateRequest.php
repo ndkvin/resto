@@ -27,6 +27,8 @@ class UpdateRequest extends FormRequest
           'date' => 'required',
           'table_id' => 'required|exists:tables,id',
           'amount' => 'integer',
+          'rekening' => 'integer',
+          'payment_method' => 'required|string'
         ];
     }
 }

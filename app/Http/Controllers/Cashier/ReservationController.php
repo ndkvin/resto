@@ -9,8 +9,7 @@ use App\Models\Order;
 use App\Models\Payment;
 use App\Models\Reservation;
 use App\Models\Table;
-use GuzzleHttp\Psr7\Request as Psr7Request;
-use Illuminate\Http\Request;
+use DateTime;
 use Illuminate\Support\Facades\DB;
 
 class ReservationController extends Controller
@@ -56,6 +55,25 @@ class ReservationController extends Controller
   {
     $request = $request->all();
 
+    $dateString = $request['date'];
+    $timestamp = strtotime($dateString);
+    $dateTime = new DateTime("@$timestamp");
+    $past = $dateTime->modify('-2 hours');
+    $now = $dateTime->modify('+0 hours');
+
+    $reservation = Reservation::join('orders', 'orders.id', '=', 'reservations.order_id')
+      ->where('reservations.date', ">=", $past)
+      ->where('table_id', $request['table_id'])
+      ->get();
+
+    foreach ($reservation as $res) {
+      if ($res->date <= $now) {
+        return redirect()
+          ->route('cashier.reservation.index')
+          ->withErrors(['Table is already reserved']);
+      }
+    }
+
     if ($this->validateCreate($request)) {
       return redirect()
         ->route('cashier.reservation.index')
@@ -66,14 +84,18 @@ class ReservationController extends Controller
       $order = Order::create([
         'table_id' => $request['table_id'],
         'created_by' => auth()->user()->id,
-        'total_price' => $request['amount'],
+        'total_price' => Table::find($request['table_id'])->price,
       ]);
 
-      Payment::create([
-        'order_id' => $order->id,
-        'amount' => $request['amount'],
-        'payment_method' => 'cash',
-      ]);
+      // if paymet is greather than 0
+      if ($request['amount'] > 0) {
+        Payment::create([
+          'order_id' => $order->id,
+          'amount' => Table::find($request['table_id'])->price,
+          'payment_method' => $request['payment_method'],
+          'rekening' => $request['rekening'],
+        ]);
+      }
 
       Reservation::create([
         'order_id' => $order->id,
@@ -104,7 +126,8 @@ class ReservationController extends Controller
     return $reservation::where('reservations.id', $reservation->id)
       ->join('orders', 'orders.id', '=', 'reservations.order_id')
       ->join('tables', 'tables.id', '=', 'orders.table_id')
-      ->select('reservations.*', 'tables.name as table_name', 'tables.id as table_id')
+      ->leftJoin('payments', 'payments.order_id', '=', 'orders.id')
+      ->select('reservations.*', 'tables.name as table_name', 'tables.id as table_id', 'payments.payment_method as payment_method', 'payments.rekening as rekening')
       ->get();
   }
 
@@ -122,12 +145,12 @@ class ReservationController extends Controller
   public function update(UpdateRequest $request, Reservation $reservation)
   {
     $request = $request->all();
-
     if ($this->validateCreate($request)) {
       return redirect()
         ->route('cashier.reservation.index')
         ->withErrors(['Down Payment must be greater than table price']);
     }
+    $payment = Payment::where('order_id', $reservation->order_id)->first();
 
     DB::beginTransaction();
     try {
@@ -137,10 +160,10 @@ class ReservationController extends Controller
         'table_id' => $request['table_id'],
       ]);
 
-      Payment::where('order_id', $reservation->order_id)->update([
-        'order_id' => $reservation->id,
+      Payment::where('id', $payment->id)->update([
         'amount' => $request['amount'],
-        'payment_method' => 'cash',
+        'payment_method' => $request['payment_method'],
+        'rekening' => $request['rekening'],
       ]);
 
       $reservation->update([
@@ -159,7 +182,7 @@ class ReservationController extends Controller
       DB::rollback();
       return redirect()
         ->route('cashier.reservation.index')
-        ->withErrors(['Down Payment must be greater than table price']);
+        ->withErrors([$e->getMessage()]);
     }
   }
 

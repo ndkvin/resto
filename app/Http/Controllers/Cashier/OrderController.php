@@ -23,7 +23,8 @@ class OrderController extends Controller
   {
     $orders = Order::join('tables', 'tables.id', '=', 'orders.table_id')
       ->join('users', 'users.id', '=', 'orders.created_by')
-      ->select('orders.*', 'tables.name as table_name', 'users.name as cashier_name')
+      ->leftJoin('reservations', 'reservations.order_id', '=', 'orders.id')
+      ->select('orders.*', 'tables.name as table_name', 'users.name as cashier_name', 'reservations.name as customer_name')
       ->orderBy('orders.created_at', 'desc')
       ->get();
 
@@ -154,6 +155,14 @@ class OrderController extends Controller
    */
   public function edit(Order $order)
   {
+    $menus = [];
+    foreach (Category::all() as $category) {
+      array_push($menus, [
+        'category' => $category,
+        'menus' => $this->getMenus($category->id),
+      ]);
+    }
+
     $payments = Payment::where('order_id', $order->id)->get();
     $totalPaid = 0;
 
@@ -166,7 +175,36 @@ class OrderController extends Controller
       'payments' => $payments,
       'total_paid' => $totalPaid,
       'tables' => Table::all(),
+      'menu_list' => $menus,
+      'table_price' => Table::find($order->table_id)->price,
     ]);
+  }
+
+  private function checkMenuOrder($menu_id, $order_id)
+  {
+    $orderItem = OrderItem::where('menu_id', $menu_id)->where('order_id', $order_id)->first();
+    if ($orderItem) {
+      return true;
+    }
+    return false;
+  }
+  
+  private function validateUpdate($request, $orderId)
+  {
+    $table = Table::find($request->table_id);
+    // total paid
+    $payments = Payment::where('order_id', $orderId)->get();
+    $totalPaid = 0;
+    foreach($payments as $payment) {
+      $totalPaid += $payment->amount;
+    }
+    $totalPaid += $request->nominal;
+
+    if ($totalPaid < $table->price) {
+      return true;
+    }
+
+    return false;
   }
 
   /**
@@ -174,28 +212,60 @@ class OrderController extends Controller
    */
   public function update(UpdateRequest $request, Order $order)
   {
-      DB::beginTransaction();
-      try {
-        $order->update([
-          'is_paid' => $request->is_paid,
-        ]);
+
+    if ($this->validateUpdate($request, $order->id)) {
+      return redirect()
+        ->route('cashier.order.index')
+        ->withErrors(['Nominal must be greater than table price']);
+    }
+
+    $total = $this->totalMenuPrice($request) + Table::find($request->table_id)->price;
+    
+    DB::beginTransaction();
+    try {
+      $order->update([
+        'table_id' => $request->table_id,
+        'total_price' => $total,
+        'is_paid' => $request->is_paid,
+      ]);
+      foreach ($request->menu_id as $index => $menu_id) {
+        if ($request->amount[$index] > 0 && !$this->checkMenuOrder($menu_id, $order->id)) {
+          OrderItem::create([
+            'order_id' => $order->id,
+            'menu_id' => $menu_id,
+            'quantity' => $request->amount[$index],
+            'price_per_item' => Menu::find($menu_id)->price,
+          ]);
+        } else if ($this->checkMenuOrder($menu_id, $order->id)) {
+          $orderItem = OrderItem::where('menu_id', $menu_id)->where('order_id', $order->id)->first();
+          if ($request->amount[$index] == 0) {
+            $orderItem->delete();
+          } else {
+            $orderItem->update([
+              'quantity' => $request->amount[$index],
+            ]);
+          }
+        }
+      }
+
+      if($request->nominal > 0) {
         Payment::create([
           'order_id' => $order->id,
           'amount' => $request->nominal,
           'payment_method' => $request->payment_method,
           'rekening' => $request->rekening,
         ]);
-
-        DB::commit();
-        return redirect()
-          ->route('cashier.order.index')
-          ->with('success', 'Order successfully updated');
-      } catch (\Exception $e) {
-          DB::rollBack();
-          return redirect()
-              ->route('cashier.order.edit', $order->id)
-              ->withErrors([$e->getMessage()]);
       }
+      DB::commit();
+      return redirect()
+        ->route('cashier.order.index')
+        ->with('success', 'Order successfully updated');
+    } catch (\Exception $e) {
+      DB::rollBack();
+      return redirect()
+        ->route('cashier.order.edit', $order->id)
+        ->withErrors([$e->getMessage()]);
+    }
   }
 
   /**

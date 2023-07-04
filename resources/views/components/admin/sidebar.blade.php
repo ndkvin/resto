@@ -12,7 +12,7 @@
     <div class="app-menu">
         <ul class="accordion-menu">
             <li class="sidebar-title">
-                Resto
+              Resto
             </li>
             <li class="active-page">
                 <a href="">
@@ -34,26 +34,12 @@
                             class="{{ request()->is('admin/cashier') ? ' active' : '' }}">Cashier</a>
                     </li>
                     <li>
+                      <a href="{{ route('admin.manager.index') }}"
+                          class="{{ request()->is('admin/manager') ? ' active' : '' }}">Manager</a>
+                  </li>
+                    <li>
                         <a href="{{ route('admin.table.index') }}"
                             class="{{ request()->is('admin/table') ? ' active' : '' }}">Table</a>
-                    </li>
-                </ul>
-            </li>
-            <li class="sidebar-title">
-                UI Elements
-            </li>
-            <li>
-                <a href="#"><i class="material-icons-two-tone">color_lens</i>Styles<i
-                        class="material-icons has-sub-menu">keyboard_arrow_right</i></a>
-                <ul class="sub-menu">
-                    <li>
-                        <a href="styles-typography.html">Typography</a>
-                    </li>
-                    <li>
-                        <a href="styles-code.html">Code</a>
-                    </li>
-                    <li>
-                        <a href="styles-icons.html">Icons</a>
                     </li>
                 </ul>
             </li>

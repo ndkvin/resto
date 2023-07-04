@@ -1,7 +1,9 @@
 <div class="app-sidebar">
     <div class="logo d-flex justify-content-between">
         <div class="fs-2 fw-bold">
-            Resto
+            <a href="{{ route('manager.home') }}" style="text-decoration:none;color:black">
+                Resto
+            </a>
         </div>
         <div class="sidebar-user-switcher user-activity-online d-flex align-items-center justify-content-center">
             <a href="#" class="d-flex align-items-center justify-content-center">
@@ -33,24 +35,6 @@
                     <li>
                         <a href="{{ route('manager.revenue.index') }}"
                             class="{{ request()->is('manager/revenue') ? ' active' : '' }}">Revenue</a>
-                    </li>
-                </ul>
-            </li>
-            <li class="sidebar-title">
-                UI Elements
-            </li>
-            <li>
-                <a href="#"><i class="material-icons-two-tone">color_lens</i>Styles<i
-                        class="material-icons has-sub-menu">keyboard_arrow_right</i></a>
-                <ul class="sub-menu">
-                    <li>
-                        <a href="styles-typography.html">Typography</a>
-                    </li>
-                    <li>
-                        <a href="styles-code.html">Code</a>
-                    </li>
-                    <li>
-                        <a href="styles-icons.html">Icons</a>
                     </li>
                 </ul>
             </li>

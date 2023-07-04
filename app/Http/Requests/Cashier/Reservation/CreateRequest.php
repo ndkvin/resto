@@ -27,6 +27,8 @@ class CreateRequest extends FormRequest
             'date' => 'required|date_format:Y-m-d H:i',
             'table_id' => 'required|exists:tables,id',
             'amount' => 'integer',
+            'rekening' => 'integer',
+            'payment_method' => 'required|string'
         ];
     }
 }
