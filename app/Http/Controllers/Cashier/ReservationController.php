@@ -9,6 +9,7 @@ use App\Models\Order;
 use App\Models\Payment;
 use App\Models\Reservation;
 use App\Models\Table;
+use DateTime;
 use Illuminate\Support\Facades\DB;
 
 class ReservationController extends Controller
@@ -54,6 +55,25 @@ class ReservationController extends Controller
   {
     $request = $request->all();
 
+    $dateString = $request['date'];
+    $timestamp = strtotime($dateString);
+    $dateTime = new DateTime("@$timestamp");
+    $past = $dateTime->modify('-2 hours');
+    $now = $dateTime->modify('+0 hours');
+
+    $reservation = Reservation::join('orders', 'orders.id', '=', 'reservations.order_id')
+      ->where('reservations.date', ">=", $past)
+      ->where('table_id', $request['table_id'])
+      ->get();
+
+    foreach ($reservation as $res) {
+      if ($res->date <= $now) {
+        return redirect()
+          ->route('cashier.reservation.index')
+          ->withErrors(['Table is already reserved']);
+      }
+    }
+
     if ($this->validateCreate($request)) {
       return redirect()
         ->route('cashier.reservation.index')
@@ -67,12 +87,15 @@ class ReservationController extends Controller
         'total_price' => Table::find($request['table_id'])->price,
       ]);
 
-      Payment::create([
-        'order_id' => $order->id,
-        'amount' => $request['amount'],
-        'payment_method' => $request['payment_method'],
-        'rekening' => $request['rekening'],
-      ]);
+      // if paymet is greather than 0
+      if ($request['amount'] > 0) {
+        Payment::create([
+          'order_id' => $order->id,
+          'amount' => Table::find($request['table_id'])->price,
+          'payment_method' => $request['payment_method'],
+          'rekening' => $request['rekening'],
+        ]);
+      }
 
       Reservation::create([
         'order_id' => $order->id,

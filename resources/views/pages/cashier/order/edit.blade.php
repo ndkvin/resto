@@ -24,7 +24,6 @@
         </div>
 
         <div class="row">
-
             <div class="col">
                 <div class="tab-content" id="myTabContent">
                     @foreach ($menu_list as $index => $menu)
@@ -50,7 +49,8 @@
                                                         type="button" id="min" data-slug="{{ $menu_item->slug }}"
                                                         data-name="{{ $menu_item->name }}"
                                                         data-price="{{ $menu_item->price }}">-</button>
-                                                    <input type="hidden" name="menu_id[]" id="input-{{ $menu_item->slug }}" value="{{ $menu_item->id }}">
+                                                    <input type="hidden" name="menu_id[]"
+                                                        id="input-{{ $menu_item->slug }}" value="{{ $menu_item->id }}">
                                                     <input type="number" class="form-control"
                                                         id="{{ $menu_item->slug }}-input" aria-describedby="amount"
                                                         aria-label="Upload" min="0" value="0" name="amount[]">
@@ -121,12 +121,76 @@
                     </div>
                 </div>
             </div>
-            <div class="card-footer">
-                <div class="row invoice-summary">
-                    <div class="col-lg-9">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-10 col-md-6 mx-auto">
+                        <label for="table_id" class="form-label">Table</label>
+                        <div class="input-group mb-3">
+                            <select class="form-select" id="table_id" name="table_id" type="number"
+                                aria-placeholder="Table">
+                                @foreach ($tables as $table)
+                                    <option value="{{ $table->id }}"
+                                        {{ $order->table_id == $table->id ? 'selected' : '' }}>
+                                        {{ "$table->name - Rp" . number_format($table->price, 0, '.', '.') }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-10 mx-auto col-md-6">
+                        <label for="is_paid" class="form-label">Lunas</label>
+                        <div class="input-group mb-3">
+                            <select class="form-select" id="is_paid" name="is_paid" type="number"
+                                aria-placeholder="Table">
+                                <option value="0" {{ $order->is_paid == 0 ? 'selected' : '' }}>
+                                    Tidak
+                                </option>
+                                <option value="1" {{ $order->is_paid == 1 ? 'selected' : '' }}>
+                                    Ya
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-10 mx-auto col-md-6 mt-2">
+                        <label for="peyment_method" class="form-label">Payment</label>
+                        <div class="input-group mb-3">
+                            <select class="form-select" id="table_id" name="payment_method" aria-placeholder="Table">
+                                <option value="cash">
+                                    Cash
+                                </option>
+                                <option value="mandiri">
+                                    Mandiri
+                                </option>
+                                <option value="bri">
+                                    BRI
+                                </option>
+                                <option value="bni">
+                                    BNI
+                                </option>
+                                <option value="bca">
+                                    BCA
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-10 mx-auto col-md-6 mt-2">
+                        <label for="rekening" class="form-label">Rekening</label>
+                        <input type="number" class="form-control" id="rekening" name="rekening">
+                    </div>
+                    <div class="col-10 mx-auto col-md-6 mt-2">
+                        <label for="nominal" class="form-label">Nominal</label>
+                        <input type="number" class="form-control" id="nominal" name="nominal">
+                    </div>
+                    <div class="col-6">
 
                     </div>
-                    <div class="col-lg-3">
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="row invoice-summary">
+                    <div class="col-lg-8">
+
+                    </div>
+                    <div class="col-lg-4">
                         <div class="invoice-info">
                             <?php $total = 0;
                             foreach ($menus as $menu) {
@@ -151,83 +215,13 @@
                             </p>
                             <p class="bold">Total <span
                                     id="total">{{ 'Rp' . number_format($order->total_price, 0, '.', '.') }}</span></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        @method('PUT')
-        <div class="row">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-10 col-md-6 mx-auto">
-                            <label for="table_id" class="form-label">Table</label>
-                            <div class="input-group mb-3">
-                                <select class="form-select" id="table_id" name="table_id" type="number"
-                                    aria-placeholder="Table">
-                                    @foreach ($tables as $table)
-                                        <option value="{{ $table->id }}"  {{ $order->table_id == $table->id ? "selected" : "" }}>
-                                            {{ "$table->name - Rp" . number_format($table->price, 0, '.', '.') }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-10 mx-auto col-md-6 mt-2">
-                            <label for="is_paid" class="form-label">Lunas</label>
-                            <div class="input-group mb-3">
-                                <select class="form-select" id="is_paid" name="is_paid" type="number"
-                                    aria-placeholder="Table">
-                                    <option value="0" {{ $order->is_paid == 0 ? 'selected' : ''}}>
-                                        Tidak
-                                    </option>
-                                    <option value="1" {{ $order->is_paid == 1 ? 'selected' : ''}}>
-                                        Ya
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-10 mx-auto col-md-6 mt-2">
-                            <label for="peyment_method" class="form-label">Payment</label>
-                            <div class="input-group mb-3">
-                                <select class="form-select" id="table_id" name="payment_method"
-                                    aria-placeholder="Table">
-                                    <option value="cash">
-                                        Cash
-                                    </option>
-                                    <option value="mandiri">
-                                        Mandiri
-                                    </option>
-                                    <option value="bri">
-                                        BRI
-                                    </option>
-                                    <option value="bni">
-                                        BNI
-                                    </option>
-                                    <option value="bca">
-                                        BCA
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-10 mx-auto col-md-6 mt-2">
-                            <label for="rekening" class="form-label">Rekening</label>
-                            <input type="number" class="form-control" id="rekening" name="rekening">
-                        </div>
-                        <div class="col-10 mx-auto col-md-6 mt-2">
-                            <label for="nominal" class="form-label">Nominal</label>
-                            <input type="number" class="form-control" id="nominal" name="nominal">
-                        </div>
-                        <div class="col-6">
-
-                        </div>
-                        <div class="col-10 col-md-6 mt-2">
                             <input type="submit" class="btn btn-primary w-100" value="update">
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        @method('PUT')
     </form>
 @endsection
 
