@@ -11,6 +11,7 @@ use App\Models\Reservation;
 use App\Models\Table;
 use DateTime;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class ReservationController extends Controller
 {
@@ -58,16 +59,27 @@ class ReservationController extends Controller
     $dateString = $request['date'];
     $timestamp = strtotime($dateString);
     $dateTime = new DateTime("@$timestamp");
-    $past = $dateTime->modify('-2 hours');
-    $now = $dateTime->modify('+0 hours');
+    $past = clone $dateTime;
+    $past->modify('-2 hours');
+    $order = $dateTime;
+    $future = clone $dateTime;
+    $future->modify('+2 hours');
 
+    $now = Carbon::now('Asia/Jakarta');
+
+    if($order < $now){
+      return redirect()
+        ->route('cashier.reservation.index')
+        ->withErrors(['Cannot reserve table in the past']);
+    }
+  
     $reservation = Reservation::join('orders', 'orders.id', '=', 'reservations.order_id')
       ->where('reservations.date', ">=", $past)
       ->where('table_id', $request['table_id'])
       ->get();
-
+   
     foreach ($reservation as $res) {
-      if ($res->date <= $now) {
+      if ($res->date <= $future) {
         return redirect()
           ->route('cashier.reservation.index')
           ->withErrors(['Table is already reserved']);
@@ -150,7 +162,39 @@ class ReservationController extends Controller
         ->route('cashier.reservation.index')
         ->withErrors(['Down Payment must be greater than table price']);
     }
-    $payment = Payment::where('order_id', $reservation->order_id)->first();
+
+
+    $dateString = $request['date'];
+    $timestamp = strtotime($dateString);
+    $dateTime = new DateTime("@$timestamp");
+    $past = clone $dateTime;
+    $past->modify('-2 hours');
+    $order = $dateTime;
+    $future = clone $dateTime;
+    $future->modify('+2 hours');
+
+    $now = Carbon::now('Asia/Jakarta');
+
+    if($order < $now){
+      return redirect()
+        ->route('cashier.reservation.index')
+        ->withErrors(['Cannot reserve table in the past']);
+    }
+
+    $a = Reservation::join('orders', 'orders.id', '=', 'reservations.order_id')
+      ->where('reservations.date', ">=", $past)
+      ->where('table_id', $request['table_id'])
+      ->whereNot('orders.id', $reservation->order_id)
+      ->get();
+
+    foreach ($a as $res) {
+      if ($res->date <= $future) {
+        return redirect()
+          ->route('cashier.reservation.index')
+          ->withErrors(['Table is already reserved']);
+      }
+    }
+    $payment = Payment::where('order_id', $reservation->order_id)->exists();
 
     DB::beginTransaction();
     try {
@@ -160,11 +204,13 @@ class ReservationController extends Controller
         'table_id' => $request['table_id'],
       ]);
 
-      Payment::where('id', $payment->id)->update([
-        'amount' => $request['amount'],
-        'payment_method' => $request['payment_method'],
-        'rekening' => $request['rekening'],
-      ]);
+      if($payment &&  $request['amount'] > 0) {
+        Payment::where('id', Payment::where('order_id', $reservation->order_id)->first()->id)->update([
+          'amount' => $request['amount'],
+          'payment_method' => $request['payment_method'],
+          'rekening' => $request['rekening'],
+        ]);
+      }
 
       $reservation->update([
         'name' => $request['name'],
