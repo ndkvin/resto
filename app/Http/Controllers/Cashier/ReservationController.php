@@ -210,6 +210,13 @@ class ReservationController extends Controller
           'payment_method' => $request['payment_method'],
           'rekening' => $request['rekening'],
         ]);
+      } else if($request['amount']>0) {
+        Payment::create([
+          'order_id' => $reservation->order_id,
+          'amount' => $request['amount'],
+          'payment_method' => $request['payment_method'],
+          'rekening' => $request['rekening'],
+        ]);
       }
 
       $reservation->update([
