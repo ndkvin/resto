@@ -6,6 +6,7 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use App\Models\Category;
 
 class DatabaseSeeder extends Seeder
 {
@@ -16,5 +17,6 @@ class DatabaseSeeder extends Seeder
     {
           //call user seder
           $this->call(UserSeeder::class);
+          $this->call(Categoryseeder::class);
     }
 }
